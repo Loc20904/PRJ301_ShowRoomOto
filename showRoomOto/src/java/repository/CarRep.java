@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 package repository;
 
 import java.sql.*;
@@ -10,8 +9,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Car;
 
+public class CarRep implements DatabaseInfo {
 
-public class CarRep implements DatabaseInfo{
     public static Connection getConnect() {
         try {
             Class.forName(DRIVERNAME);
@@ -26,7 +25,7 @@ public class CarRep implements DatabaseInfo{
         }
         return null;
     }
-    
+
     public static Car getCarByID(int carID) {
         Car car = null;
         Connection con = getConnect();
@@ -39,16 +38,17 @@ public class CarRep implements DatabaseInfo{
                 if (rs.next()) {
                     // Tạo đối tượng Car, map các cột vào
                     car = new Car();
-                    car.setCarID(rs.getInt(1));
-                    car.setCarName(rs.getString(2));
-                    car.setType(rs.getString(3));
-                    car.setBrand(rs.getString(4));
-                    car.setDescription(rs.getString(5));
-                    car.setPrice(rs.getDouble(5));
-                    car.setYearOfManufacture(rs.getInt(6));
-                    car.setWeight(rs.getDouble(7));
-                    car.setStockQuantity(rs.getInt(8));
-                    car.setImageURL(rs.getString(9));
+                    car.setCarID(rs.getInt(1));               // CarID
+                    car.setCarName(rs.getString(2));          // carName
+                    car.setType(rs.getString(3));             // type
+                    car.setBrand(rs.getString(4));            // brand
+                    car.setDescription(rs.getString(5));      // description
+                    car.setPrice(rs.getDouble(6));            // price
+                    car.setYearOfManufacture(rs.getInt(7));   // year_of_manufacture
+                    car.setWeight(rs.getDouble(8));           // Weight
+                    car.setStockQuantity(rs.getInt(9));       // StockQuantity
+                    car.setImageURL(rs.getString(10));        // imageURL
+
                 }
                 rs.close();
                 ps.close();

@@ -8,7 +8,7 @@
         <servlet-name>s_Car</servlet-name>
         <url-pattern>/s_Car</url-pattern>
     </servlet-mapping>
-    <welcome-file-list>
+<!--    <welcome-file-list>
         <welcome-file>carDetailPage.jsp</welcome-file>
-    </welcome-file-list>
+    </welcome-file-list>-->
 </web-app>
