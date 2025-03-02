@@ -1,3 +1,6 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="repository.Car"%>
+<%@page import="repository.Car"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -121,7 +124,9 @@
                     <a class="nav-link active" aria-current="page" href="#">HOME</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Car</a>
+                    <form action="ShowCar" method="POST">
+                      <button class="nav-link" >Car</button>  
+                    </form>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">BLOG</a>
@@ -146,7 +151,43 @@
 
 <!-- Banner (Carousel trượt full viền, bị header đè) -->
 <%@include file="includes/bannerMainPage.jsp" %>
-
+        <div class="container mt-5">
+            <div class="row">
+                <%
+                    ArrayList<Car> list = (ArrayList<Car>) request.getAttribute("listR");
+                    if (list == null) {
+                        list = (ArrayList<Car>) session.getAttribute("listR"); // Lấy từ session nếu request không có
+                    }
+                    if (list != null && !list.isEmpty()) {
+                        for (Car f : list) {
+                %>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <img src="<%= f.getImage()%>" class="card-img-top" width="100%" alt=""> 
+                            <h5 class="card-title">Room Number: <%= f.getName()%></h5>
+                            <p class="card-text">ID: <%= f.getId()%></p>
+                            <p class="card-text">Brand: <%= f.getBrand()%></p>
+                            <p class="card-text">Description: <%= f.getDescription()%></p>
+                            <p class="card-text">Type: <%= f.getType()%></p>
+                            <p class="card-text">Price: <%= f.getPrice()%> $</p>
+                            <p class="card-text">Weight: <%= f.getWeight()%> kg</p>
+                            <p class="card-text">Stock Quantity: <%= f.getStockQuantity()%></p>
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bookingModal">Book Now</button>
+<!--                            <button class="btn btn-primary book-now-btn" data-bs-toggle="modal" data-bs-target="#bookingModal"data-roomid="<%= f.getId()%>">Book Now</button>-->
+                        </div>
+                    </div>
+                </div>
+                <%
+                    }
+                } else {
+                %>
+                <p>Enter Car to see more</p>
+                <%
+                    }
+                %>
+            </div>
+        </div>
 <!-- Bootstrap JS, jQuery, và Bootstrap Icons -->
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
