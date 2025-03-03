@@ -9,8 +9,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Car;
 
-public class CarRep implements DatabaseInfo {
 
+
+public class CarRep implements DatabaseInfo{
     public static Connection getConnect() {
         try {
             Class.forName(DRIVERNAME);
@@ -25,6 +26,7 @@ public class CarRep implements DatabaseInfo {
         }
         return null;
     }
+    
 
     public static Car getCarByID(int carID) {
         Car car = null;
@@ -59,7 +61,7 @@ public class CarRep implements DatabaseInfo {
         }
         return car;
     }
-
+    
     public static void main(String[] args) {
         System.out.println(getCarByID(1));
     }
