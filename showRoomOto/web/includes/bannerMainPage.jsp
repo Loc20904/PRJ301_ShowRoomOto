@@ -13,7 +13,7 @@
             <div class="carousel-caption d-none d-md-block">
                 <h1>Amazing lamborghini</h1>
                 <p>1023 reviews ★★★★★ 4.5/5</p>
-                <a href="#" class="btn btn-custom">Take Me There →</a>
+                <a href="#14" class="btn btn-custom">Take Me There →</a>
             </div>
         </div>
 
@@ -22,7 +22,7 @@
             <div class="carousel-caption d-none d-md-block">
                 <h1>Try your favorite Car</h1>
                 <p>850 reviews ★★★★★ 4.7/5</p>
-                <a href="#" class="btn btn-custom">Take Me There →</a>
+                <a href="#car" class="btn btn-custom">Take Me There →</a>
             </div>
         </div>
 
@@ -31,7 +31,7 @@
             <div class="carousel-caption d-none d-md-block">
                 <h1>Suitable for all styles</h1>
                 <p>1200 reviews ★★★★★ 4.6/5</p>
-                <a href="#" class="btn btn-custom">Take Me There →</a>
+                <a href="#car" class="btn btn-custom">Take Me There →</a>
             </div>
         </div>
     </div>

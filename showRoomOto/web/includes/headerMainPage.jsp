@@ -16,19 +16,19 @@
         <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">HOME</a>
+                    <a class="nav-link active" aria-current="page" href="s_Car">HOME</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Car</a>
+                    <a class="nav-link" href="#car">Car</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">BLOG</a>
+                    <a class="nav-link" href="deverloping.jsp">BLOG</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">PAGE</a>
+                    <a class="nav-link" href="deverloping.jsp">PAGE</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">CONTACT</a>
+                    <a class="nav-link" href="deverloping.jsp">CONTACT</a>
                 </li>
             </ul>
         </div>

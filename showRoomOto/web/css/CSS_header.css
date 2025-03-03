@@ -1,0 +1,48 @@
+/* Header */
+.header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: url('images/header-background.jpg') no-repeat center center; /* Đường dẫn ảnh núi */
+    background-size: cover;
+    z-index: 1050; /* Z-index cao hơn banner để đè lên */
+    padding: 10px 0;
+    transition: background-color 0.3s ease; /* Hiệu ứng chuyển màu khi hover */
+    border-bottom: #ffffff solid 0.05px;
+    padding-bottom: 20px;
+    padding-top: 15px;
+}
+.header:hover {
+    background: linear-gradient(45deg, #b0b0b0, #808080, #a0a0a0); /* Màu kim loại khi hover */
+}
+
+.navbar-brand img {
+    height: 30px; /* Điều chỉnh kích thước logo */
+    margin-left: 20px; /* Thêm khoảng cách bên trái cho logo */
+}
+
+.nav-link {
+    color: #ffffff !important; /* Văn bản trắng */
+    font-weight: bold;
+    margin: 0 15px;
+    text-transform: uppercase; /* Chuyển chữ in hoa (tương tự hình) */
+}
+.nav-link:hover {
+    color: #ff8c00 !important; /* Màu cam khi hover (tương tự logo) */
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    margin-right: 20px; /* Thêm khoảng cách bên phải */
+}
+
+.phone-icon, .search-icon, .user-icon {
+    color: #ffffff;
+    margin-left: 15px;
+    cursor: pointer;
+    font-size: 1.2rem; /* Tăng kích thước biểu tượng */
+}
+.phone-icon:hover, .search-icon:hover, .user-icon:hover {
+    color: #ff8c00; /* Màu cam khi hover */
+}

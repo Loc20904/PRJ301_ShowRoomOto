@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import model.Car;
 import repository.CarRep;
 
@@ -57,10 +58,9 @@ public class s_Car extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String cid=request.getParameter("carID");
-        Car c=CarRep.getCarByID(Integer.parseInt(cid));
-        request.setAttribute("car", c);
-        request.getRequestDispatcher("carDetailPage.jsp").forward(request, response);
+        ArrayList<Car> ls=CarRep.getall();
+        request.getSession().setAttribute("listR", ls);
+        request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 
     /**
@@ -74,7 +74,10 @@ public class s_Car extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String cid=request.getParameter("carID");
+        Car c=CarRep.getCarByID(Integer.parseInt(cid));
+        request.setAttribute("car", c);
+        request.getRequestDispatcher("carDetailPage.jsp").forward(request, response);
     }
 
     /**

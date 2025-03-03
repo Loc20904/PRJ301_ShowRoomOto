@@ -5,6 +5,7 @@
 package repository;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Car;
@@ -62,7 +63,36 @@ public class CarRep implements DatabaseInfo{
         return car;
     }
     
+         public static ArrayList<Car> getall(){
+        ArrayList<Car> ro = new ArrayList<>();
+        try(java.sql.Connection con=getConnect()) {
+            PreparedStatement stmt=con.prepareStatement("Select *  from Car ");
+            ResultSet rs=stmt.executeQuery();
+            while(rs.next()){
+                Car car = new Car();
+                    car.setCarID(rs.getInt(1));               // CarID
+                    car.setCarName(rs.getString(2));          // carName
+                    car.setType(rs.getString(3));             // type
+                    car.setBrand(rs.getString(4));            // brand
+                    car.setDescription(rs.getString(5));      // description
+                    car.setPrice(rs.getDouble(6));            // price
+                    car.setYearOfManufacture(rs.getInt(7));   // year_of_manufacture
+                    car.setWeight(rs.getDouble(8));           // Weight
+                    car.setStockQuantity(rs.getInt(9));       // StockQuantity
+                    car.setImageURL(rs.getString(10));        // imageURL
+                ro.add(car);
+            }
+            con.close();
+        } catch (Exception ex) {
+            Logger.getLogger(CarRep.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ro;
+    }
+    
     public static void main(String[] args) {
-        System.out.println(getCarByID(1));
+        for(Car c:getall())
+        {
+            System.out.println(c);
+        }
     }
 }
