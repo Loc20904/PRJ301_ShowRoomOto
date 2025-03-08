@@ -71,9 +71,11 @@
     color: #ff8c00; /* Màu cam khi hover */
 }
         </style>
+        <link rel="stylesheet" href="css/CSS_chatbox.css"/>
     </head>
     <body>
         <%@include file="includes/headerMainPage.jsp" %>
+        <%@include file="includes/chatBox.jsp" %>
         <!-- Lấy Car bằng JSTL/EL -->
         <jsp:useBean id="car" class="model.Car" scope="request" />
         <!-- Hero section -->
@@ -126,5 +128,6 @@
         <!-- Bootstrap JS, jQuery, và Bootstrap Icons -->
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+        <<script src="js/JS_chatBox.js"></script>
     </body>
 </html>
