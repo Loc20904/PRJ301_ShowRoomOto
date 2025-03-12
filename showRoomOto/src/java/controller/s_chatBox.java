@@ -11,6 +11,9 @@ import com.google.gson.*;
 import jakarta.servlet.http.Part;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
+import model.Car;
+import repository.CarRep;
 
 public class s_chatBox extends HttpServlet {
     private static final String API_URL = "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent";
@@ -18,29 +21,54 @@ public class s_chatBox extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String userMessage = request.getParameter("message");
+        BufferedReader reader = request.getReader();
+        StringBuilder requestData = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            requestData.append(line);
+        }
 
-        // Kiểm tra nếu message rỗng
-        if (userMessage == null || userMessage.trim().isEmpty()) {
+        JsonObject requestJson = JsonParser.parseString(requestData.toString()).getAsJsonObject();
+        String userMessage = requestJson.has("message") ? requestJson.get("message").getAsString() : "";
+
+        if (userMessage.trim().isEmpty()) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().write("{\"error\": \"Message cannot be empty\"}");
             return;
         }
-        
-        // Tạo JSON request body
+
+        // Lấy danh sách xe từ database
+        List<Car> allCars = CarRep.getall();
+        StringBuilder carData = new StringBuilder();
+        for (Car car : allCars) {
+            carData.append("Car Name: ").append(car.getCarName())
+                    .append(", Type: ").append(car.getType())
+                    .append(", Brand: ").append(car.getBrand())
+                    .append(", Price: ").append(car.getPrice())
+                    .append(", Year: ").append(car.getYearOfManufacture())
+                    .append(", Stock: ").append(car.getStockQuantity())
+                    .append("\n");
+        }
+
+        if (carData.length() == 0) {
+            response.getWriter().write("{\"response\": \"Vui lòng hỏi câu liên quan đến danh sách xe.\"}");
+            return;
+        }
+
+        // Chuẩn bị request gửi AI
         JsonObject requestBody = new JsonObject();
         JsonArray contents = new JsonArray();
         JsonObject contentObj = new JsonObject();
         JsonArray parts = new JsonArray();
-        JsonObject textPart = new JsonObject();
 
-        textPart.addProperty("text", userMessage);
+        JsonObject textPart = new JsonObject();
+        textPart.addProperty("text", "Database Car:\n" + carData.toString() + "\nUser Question: " + userMessage);
         parts.add(textPart);
         contentObj.add("parts", parts);
         contents.add(contentObj);
         requestBody.add("contents", contents);
 
-        // Gửi request đến Google API
+        // Gửi request đến AI
         URL url = new URL(API_URL + "?key=" + API_KEY);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("POST");
@@ -53,54 +81,38 @@ public class s_chatBox extends HttpServlet {
             os.write(input, 0, input.length);
         }
 
-        // Nhận response từ API
+        // Nhận response từ AI
         int status = conn.getResponseCode();
         InputStream inputStream = (status < 400) ? conn.getInputStream() : conn.getErrorStream();
         BufferedReader br = new BufferedReader(new InputStreamReader(inputStream, "utf-8"));
-        
+
         StringBuilder responseStr = new StringBuilder();
-        String responseLine;
-        while ((responseLine = br.readLine()) != null) {
-            responseStr.append(responseLine.trim());
+        while ((line = br.readLine()) != null) {
+            responseStr.append(line.trim());
         }
-        
-        // Kiểm tra phản hồi JSON từ API
-        String aiResponseText = "No response from AI";
+
+        String aiResponseText = "Vui lòng hỏi câu liên quan đến danh sách xe.";
         try {
             JsonObject jsonResponse = JsonParser.parseString(responseStr.toString()).getAsJsonObject();
-
             if (jsonResponse.has("candidates")) {
                 JsonArray candidates = jsonResponse.getAsJsonArray("candidates");
                 if (!candidates.isEmpty()) {
                     JsonObject firstCandidate = candidates.get(0).getAsJsonObject();
                     JsonObject content = firstCandidate.getAsJsonObject("content");
                     JsonArray partsArray = content.getAsJsonArray("parts");
-
                     if (!partsArray.isEmpty() && partsArray.get(0).getAsJsonObject().has("text")) {
                         aiResponseText = partsArray.get(0).getAsJsonObject().get("text").getAsString();
                     }
                 }
             }
         } catch (Exception e) {
-            aiResponseText = "Error parsing AI response";
+            aiResponseText = "Lỗi xử lý phản hồi từ AI.";
         }
 
-        // Trả kết quả về client
         JsonObject clientResponse = new JsonObject();
         clientResponse.addProperty("response", aiResponseText.replace("**", "<br>"));
 
         response.setContentType("application/json");
         response.getWriter().write(clientResponse.toString());
-    }
-    // Đọc nội dung file và trả về một chuỗi String
-    public static void main(String[] args) {
-    String filePath = "db.txt";
-    String fileContent = "";
-    try {
-        fileContent = new String(Files.readAllBytes(Paths.get(filePath)), "UTF-8");
-    } catch (Exception e) {
-        fileContent = "Lỗi đọc file!";
-    }
-       
     }
 }

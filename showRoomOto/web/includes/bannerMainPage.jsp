@@ -8,12 +8,32 @@
 <div id="tourCarousel" class="carousel slide" data-bs-ride="carousel">
     <!-- Slides (Các banner) -->
     <div class="carousel-inner">
+        <div class="carousel-item active">
+            <div style="position: relative; width: 100%; height: 100%; overflow: hidden;">
+                <video class="d-block w-100" style="height: 100%; object-fit: cover;" autoplay loop muted playsinline>
+                    <source src="images/slide.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="carousel-caption d-none d-md-block">
+                <h1>Experience the Thrill</h1>
+                <p>Luxury cars at your fingertips</p>
+                <form action="s_Car" method="post">
+                    <input type="hidden" name="carID" value="14">
+                    <button type="submit" class="btn-custom">Explore Now →</button>
+                </form>
+
+            </div>
+        </div>
         <!-- Slide 1: Venice -->
-        <div class="carousel-item active" style="background-image: url('images/banner1.jpg');">
+        <div class="carousel-item " style="background-image: url('images/banner1.jpg');">
             <div class="carousel-caption d-none d-md-block">
                 <h1>Amazing lamborghini</h1>
                 <p>1023 reviews ★★★★★ 4.5/5</p>
-                <a href="#14" class="btn btn-custom">Take Me There →</a>
+                <form action="s_Car" method="post">
+                    <input type="hidden" name="carID" value="14">
+                    <button type="submit" class="btn-custom">Take Me There →</button>
+                </form>
             </div>
         </div>
 
