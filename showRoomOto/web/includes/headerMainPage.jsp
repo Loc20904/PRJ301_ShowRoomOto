@@ -11,7 +11,7 @@
         <a class="navbar-brand" href="#">
             <img src="images/logoLam.jpg" alt="Zourney Logo"> <!-- Đường dẫn tới logo Zourney -->
         </a>
-        
+
         <!-- Menu -->
         <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
             <ul class="navbar-nav">
@@ -32,12 +32,23 @@
                 </li>
             </ul>
         </div>
-        
+
         <!-- Phần bên phải: Số điện thoại, tìm kiếm, người dùng -->
         <div class="header-right">
             <span class="phone-icon"><i class="bi bi-telephone-fill"></i> 0242 242 0777</span>
-            <span class="search-icon"><i class="bi bi-search"></i></span>
+            <span class="search-icon" onclick="toggleSearch()"><i class="bi bi-search"></i></span>
+            <div class="search-box hidden" id="searchBox">
+                <input type="text" class="form-control sizesearch" id="searchInput" placeholder="Search your car" onkeyup="searchCar()">
+                <div id="carResults"></div>
+            </div>
             <span class="user-icon"><i class="bi bi-person"></i></span>
         </div>
     </div>
+    <script>
+        function toggleSearch() {
+            let searchBox = document.getElementById("searchBox");
+            searchBox.classList.toggle("hidden");
+        }
+    </script>
+    <script src="js/JS_search.js"></script>
 </nav>

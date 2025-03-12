@@ -4,6 +4,14 @@
         <servlet-name>s_Car</servlet-name>
         <servlet-class>controller.s_Car</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>s_booking</servlet-name>
+        <servlet-class>controller.s_booking</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>s_search</servlet-name>
+        <servlet-class>controller.s_search</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>s_Car</servlet-name>
         <url-pattern>/s_Car</url-pattern>
@@ -15,6 +23,14 @@
     <servlet-mapping>
         <servlet-name>s_chatBox</servlet-name>
         <url-pattern>/s_chatBox</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>s_booking</servlet-name>
+        <url-pattern>/s_booking</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>s_search</servlet-name>
+        <url-pattern>/s_search</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>s_Car</welcome-file>
