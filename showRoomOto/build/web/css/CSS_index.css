@@ -1,0 +1,57 @@
+body{
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(145deg, #1f1f1f 0%, #8c8c8c 100%);
+}
+
+
+/* Đảm bảo banner full width và full viền */
+.carousel {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    z-index: 1000; /* Z-index thấp hơn header để bị đè */
+}
+.carousel-inner {
+    width: 100%;
+}
+.carousel-item {
+    height: 700px; /* Điều chỉnh chiều cao theo nhu cầu */
+    background-size: cover;
+    background-position: center;
+}
+.carousel-caption {
+
+    padding: 10px;
+    border-radius: 5px;
+    color: #ffffff; /* Văn bản màu trắng */
+}
+.btn-custom {
+    background-color: #ffffff;
+    border: 1px solid #ffffff;
+    color: #000000;
+    padding: 5px 15px; /* Thu nhỏ nút theo hình */
+}
+.btn-custom:hover {
+    background-color: #e0e0e0;
+    color: #000000;
+}
+/* Tùy chỉnh nút trượt */
+.carousel-control-prev, .carousel-control-next {
+    width: 5%; /* Thu nhỏ kích thước nút */
+}
+.carousel-control-prev-icon, .carousel-control-next-icon {
+    background-color: rgba(0, 0, 0, 0.5); /* Nền mờ cho nút */
+    border-radius: 50%; /* Hình tròn */
+}
+.img-uniform {
+    width: 100%;        /* Chiều rộng luôn bằng 100% bề ngang card */
+    height: 200px;      /* Đặt chiều cao cố định, ví dụ 200px */
+    object-fit: cover;  /* Giúp ảnh vừa khung, không méo */
+    /* Có thể thêm border-radius nếu muốn */
+}
+
+.card{
+    margin-bottom: 20px;
+}
