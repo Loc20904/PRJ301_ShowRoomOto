@@ -1,33 +1,51 @@
+function toggleChat() {
+    let chatContainer = document.getElementById("chatContainer");
+    chatContainer.style.display = (chatContainer.style.display === "none" || chatContainer.style.display === "") ? "block" : "none";
+}
 
-            function toggleChat() {
-                let chatContainer = document.getElementById("chatContainer");
-                chatContainer.style.display = (chatContainer.style.display === "none" || chatContainer.style.display === "") ? "block" : "none";
-            }
+async function sendMessage() {
+    let userInput = document.getElementById("userInput").value.trim();
+    if (userInput === "") return;
 
-            function sendMessage() {
-                let userInput = document.getElementById("userInput").value.trim();
-                if (userInput === "")
-                    return;
-                document.getElementById("chatBox").innerHTML += "<b>Bạn:</b> " + userInput + "<br>";
-                document.getElementById("userInput").value = "";
+    // Dữ liệu mô phỏng database
+    let databaseScript = `
+        INSERT INTO [dbo].[Car] ([carName], [type], [brand], [description], [price], [year_of_manufacture], [weight], [stockQuantity], [imageURL]) VALUES
+        (N'VinFast Fadil', N'regular', N'VinFast', N'Compact hatchback', 400000, 2023, 1200, 20, 'VinFast.jpg'),
+        (N'Toyota Camry', N'regular', N'Toyota', N'Reliable sedan', 600000, 2023, 1400, 25, 'ToyotaCamry.jpg'),
+        (N'Ferrari 488', N'sports', N'Ferrari', N'Italian sports car', 3000000, 2023, 1500, 3, 'Ferrari488.jpg');
+    `;
 
-                fetch("/testAIGrok/apiGrok", {
-                    method: "POST",
-                    headers: {"Content-Type": "application/x-www-form-urlencoded"},
-                    body: "message=" + encodeURIComponent(userInput)
-                })
-                        .then(response => response.json())
-                        .then(data => {
-                            let botResponse = data.response || "Không có phản hồi từ AI.";
-                            document.getElementById("chatBox").innerHTML += "<b>Gemini:</b> " + botResponse + "<br>";
-                        })
-                        .catch(error => {
-                            document.getElementById("chatBox").innerHTML += "<b style='color:red;'>Lỗi:</b> Không thể kết nối AI!<br>";
-                        });
-            }
+    let requestData = {
+        message: userInput,
+//        database: databaseScript,
+        instruction: "Chỉ trả lời dựa trên dữ liệu trong database. Nếu không có thông tin, hãy trả lời: 'Vui lòng hỏi câu liên quan đến danh sách xe ô tô có sẵn.'"
+    };
 
-            function handleKeyPress(event) {
-                if (event.key === "Enter") {
-                    sendMessage();
-                }
-            }
+    let chatBox = document.getElementById("chatBox");
+    chatBox.innerHTML += `<div><b>Bạn:</b> ${userInput}</div>`;
+    document.getElementById("userInput").value = "";
+
+    try {
+        let response = await fetch("/showRoomOto/s_chatBox", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(requestData)
+        });
+
+        let data = await response.json();
+        let botResponse = data.response || "Không có phản hồi từ AI.";
+        chatBox.innerHTML += `<div><b>Gemini:</b> ${botResponse}</div>`;
+    } catch (error) {
+        console.error("Lỗi kết nối AI:", error);
+        chatBox.innerHTML += `<div style="color:red;"><b>Lỗi:</b> Không thể kết nối AI!</div>`;
+    }
+
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+function handleKeyPress(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        sendMessage();
+    }
+}

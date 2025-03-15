@@ -8,11 +8,14 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import model.Car;
 import repository.CarRep;
+import java.sql.*;
+import java.util.List;
 
 /**
  *
@@ -20,6 +23,8 @@ import repository.CarRep;
  */
 public class s_Car extends HttpServlet {
 
+    private static final int CARS_PER_PAGE = 6; // Số lượng xe trên mỗi trang
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -58,8 +63,36 @@ public class s_Car extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ArrayList<Car> ls=CarRep.getall();
-        request.getSession().setAttribute("listR", ls);
+//        ArrayList<Car> ls=CarRep.getall();
+//        request.getSession().setAttribute("listR", ls);
+//        request.getRequestDispatcher("index.jsp").forward(request, response);
+        HttpSession session = request.getSession();
+
+        // Lấy danh sách toàn bộ xe từ database
+        List<Car> allCars = CarRep.getall();
+
+        // Lấy số trang hiện tại từ request, nếu không có thì mặc định là trang 1
+        int page = 1;
+        if (request.getParameter("page") != null) {
+            page = Integer.parseInt(request.getParameter("page"));
+        }
+
+        // Tính toán vị trí bắt đầu và kết thúc của danh sách trên trang hiện tại
+        int startIndex = (page - 1) * CARS_PER_PAGE;
+        int endIndex = Math.min(startIndex + CARS_PER_PAGE, allCars.size());
+
+        // Cắt danh sách xe theo trang
+        List<Car> carsOnPage = allCars.subList(startIndex, endIndex);
+
+        // Tính tổng số trang
+        int totalPages = (int) Math.ceil((double) allCars.size() / CARS_PER_PAGE);
+
+        // Gửi dữ liệu sang JSP
+        session.setAttribute("listR", carsOnPage);
+        request.setAttribute("currentPage", page);
+        request.setAttribute("totalPages", totalPages);
+
+        // Chuyển hướng về trang JSP hiển thị xe
         request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 
