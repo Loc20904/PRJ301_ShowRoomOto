@@ -7,13 +7,13 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <section id="chatbox">
     <div id="chatButton" onclick="toggleChat()">
-        💬Hổ trợ thông tin
+        💬Hỗ trợ thông tin
     </div>
 
     <!-- Hộp chat ẩn ban đầu -->
     <div id="chatContainer">
         <div id="chatHeader">
-            <span>Chat với Gemini AI</span>
+            <span>Find Your Information</span>
             <button onclick="toggleChat()">✖</button>
         </div>
         <div id="chatBox"></div>

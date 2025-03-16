@@ -75,7 +75,6 @@
         </nav>
     </div>
 </section>
-
         <script src="js/JS_chatBox.js"></script>
         <!-- Bootstrap JS, jQuery, và Bootstrap Icons -->
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>

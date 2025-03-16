@@ -9,6 +9,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
         <!-- Bootstrap Icons -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+        <link rel="stylesheet" href="css/CSS_header.css"/>
         <style>
             /* Dùng pseudo-element để hiển thị ảnh car và làm mờ (hoặc giữ nguyên tuỳ ý) */
             .hero::before {
@@ -128,6 +129,7 @@
         <!-- Bootstrap JS, jQuery, và Bootstrap Icons -->
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-        <<script src="js/JS_chatBox.js"></script>
+        <script src="js/JS_chatBox.js"></script>
+        <script src="js/JS_search.js"></script>
     </body>
 </html>

@@ -22,6 +22,11 @@ public class Account {
     public Account() {
     }
 
+    public Account(String username, String email) {
+        this.username = username;
+        this.email = email;
+    }
+
     // Parameterized constructor
     public Account(int accId, String username, String password, String email, String role, String authority, LocalDate regisDate, int customerId) {
         this.accId = accId;
@@ -98,4 +103,6 @@ public class Account {
     public void setCustomerId(int customerId) {
         this.customerId = customerId;
     }
+    
+    
 }

@@ -9,7 +9,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
+import model.Account;
 import model.Booking;
+import model.Employee;
+import repository.EmployeeRep;
 import repository.bookingRep;
 
 /**
@@ -53,8 +56,9 @@ public class s_booking extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-//        int emid=(int)request.getSession().getAttribute("us");
-        List<Booking> lbk=bookingRep.getBookingsByEmployee(1);
+        Account em=(Account)request.getSession().getAttribute("user");
+        int emid=EmployeeRep.getEmID(em.getEmail());
+        List<Booking> lbk=bookingRep.getBookingsByEmployee(emid);
         request.setAttribute("lbk", lbk);
         request.getRequestDispatcher("employeePage.jsp").forward(request, response);
     } 
