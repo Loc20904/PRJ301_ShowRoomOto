@@ -45,26 +45,29 @@
             z-index: 1; /* Dưới text */
             opacity: 0.15; /* Độ mờ của SVG */
         }
-        .dev-header h2 {
+  .dev-header h2 {
     font-size: 1.8rem;
     margin: 0;
-    /* Tạo background gradient với nhiều màu */
+    display: inline-block; /* Đảm bảo text nhận hiệu ứng */
     background: linear-gradient(90deg, #ff8c00, #ffd700, #32cd32, #00ced1, #1e90ff, #9370db);
-    background-size: 200%;
-    /* Dùng background clip để áp dụng gradient cho text */
+    background-size: 400% 400%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     animation: gradientShift 5s linear infinite;
 }
 
-@keyframes gradientShift {
+/*@keyframes gradientShift {
     0% {
         background-position: 0% 50%;
     }
-    100% {
+    50% {
         background-position: 100% 50%;
     }
-}
+    100% {
+        background-position: 0% 50%;
+    }
+}*/
+
 
     </style>
 </head>
