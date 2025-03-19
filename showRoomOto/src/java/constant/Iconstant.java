@@ -5,8 +5,8 @@ package constant;
  * @author thanh
  */
 public class Iconstant {
-    public static final String GOOGLE_CLIENT_ID = "860605801896-9re9lvv2a8t0994g8vr2a3v56roos8nf.apps.googleusercontent.com";
-    public static final String GOOGLE_CLIENT_SECRET = "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";
+    public static final String GOOGLE_CLIENT_ID = "660310171953-iuvt1hhiqfu0lvd64m1v6so0p8g7gkh4.apps.googleusercontent.com";
+    public static final String GOOGLE_CLIENT_SECRET = "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";
     public static final String GOOGLE_REDIRECT_URI = "http://localhost:8080/showRoomOto/login";
     public static final String GOOGLE_GRANT_TYPE = "authorization_code";
 
