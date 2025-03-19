@@ -66,11 +66,25 @@ public class s_Car extends HttpServlet {
 //        ArrayList<Car> ls=CarRep.getall();
 //        request.getSession().setAttribute("listR", ls);
 //        request.getRequestDispatcher("index.jsp").forward(request, response);
+        String brand = request.getParameter("brand");
+        String priceOrder = request.getParameter("price");
         HttpSession session = request.getSession();
-
+        List<Car> allCars;
         // Lấy danh sách toàn bộ xe từ database
-        List<Car> allCars = CarRep.getall();
-
+        if(brand!=null || priceOrder!=null){
+            if(brand!=null){
+                session.setAttribute("selectedBrand", brand);
+                priceOrder=(String)session.getAttribute("selectedPrice");
+            }
+            if(priceOrder!=null){
+                session.setAttribute("selectedPrice", priceOrder);
+                brand=(String)session.getAttribute("selectedBrand");
+            }
+            allCars = CarRep.getFilteredCars(brand, priceOrder);
+        }
+        else{
+            allCars = CarRep.getall();
+        }       
         // Lấy số trang hiện tại từ request, nếu không có thì mặc định là trang 1
         int page = 1;
         if (request.getParameter("page") != null) {
@@ -89,11 +103,16 @@ public class s_Car extends HttpServlet {
 
         // Gửi dữ liệu sang JSP
         session.setAttribute("listR", carsOnPage);
-        request.setAttribute("currentPage", page);
-        request.setAttribute("totalPages", totalPages);
+        session.setAttribute("currentPage", page);
+        session.setAttribute("totalPages", totalPages);
 
         // Chuyển hướng về trang JSP hiển thị xe
-        request.getRequestDispatcher("index.jsp").forward(request, response);
+        if(brand!=null || priceOrder!=null){
+            response.sendRedirect("index.jsp?#car");
+        }
+        else{
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        }
     }
 
     /**

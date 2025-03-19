@@ -6,6 +6,7 @@ package repository;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Car;
@@ -89,6 +90,48 @@ public class CarRep implements DatabaseInfo{
         return ro;
     }
     
+        public static List<Car> getFilteredCars(String brand, String priceOrder) {
+        List<Car> carList = new ArrayList<>();
+        String sql = "SELECT * FROM Car WHERE 1=1"; // Base SQL
+            System.out.println(brand+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        if (brand != null && !brand.equalsIgnoreCase("allBrand")) {
+            sql += " AND brand = ?";
+        }
+
+        if ("asc".equals(priceOrder)) {
+            sql += " ORDER BY price ASC";
+        } else if ("desc".equals(priceOrder)) {
+            sql += " ORDER BY price DESC";
+        }
+
+        try (Connection con=getConnect()) {
+            PreparedStatement ps = con.prepareStatement(sql);
+            int paramIndex = 1;
+            if (brand != null && !brand.equalsIgnoreCase("allBrand")) {
+                ps.setString(paramIndex++, brand);
+            }
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Car car = new Car();
+                    car.setCarID(rs.getInt(1));               // CarID
+                    car.setCarName(rs.getString(2));          // carName
+                    car.setType(rs.getString(3));             // type
+                    car.setBrand(rs.getString(4));            // brand
+                    car.setDescription(rs.getString(5));      // description
+                    car.setPrice(rs.getDouble(6));            // price
+                    car.setYearOfManufacture(rs.getInt(7));   // year_of_manufacture
+                    car.setWeight(rs.getDouble(8));           // Weight
+                    car.setStockQuantity(rs.getInt(9));       // StockQuantity
+                    car.setImageURL(rs.getString(10));        // imageURL
+                carList.add(car);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return carList;
+    }
+         
     public static void main(String[] args) {
         for(Car c:getall())
         {

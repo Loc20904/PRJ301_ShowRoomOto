@@ -110,7 +110,7 @@ public class s_chatBox extends HttpServlet {
         }
 
         JsonObject clientResponse = new JsonObject();
-        clientResponse.addProperty("response", aiResponseText.replace("**", "<br>"));
+        clientResponse.addProperty("response", aiResponseText.replace("**", "<br>").replace("database", "Showroom"));
 
         response.setContentType("application/json");
         response.getWriter().write(clientResponse.toString());

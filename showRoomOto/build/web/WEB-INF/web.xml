@@ -16,6 +16,10 @@
         <servlet-name>s_logout</servlet-name>
         <servlet-class>controller.s_logout</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>s_fillter</servlet-name>
+        <servlet-class>controller.s_fillter</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>s_Car</servlet-name>
         <url-pattern>/s_Car</url-pattern>
@@ -39,6 +43,10 @@
     <servlet-mapping>
         <servlet-name>s_logout</servlet-name>
         <url-pattern>/s_logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>s_fillter</servlet-name>
+        <url-pattern>/s_fillter</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>s_Car</welcome-file>
