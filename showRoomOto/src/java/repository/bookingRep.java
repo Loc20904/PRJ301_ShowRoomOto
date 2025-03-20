@@ -85,6 +85,48 @@ public class bookingRep implements DatabaseInfo{
         }
         return bookings;
     }
+    public static void addBooking(Booking booking,int slot,int emID) {
+        
+        String sql = "INSERT INTO Booking (customerID, BookingDate, Status) VALUES (?, GETDATE(), 'pending')";
+        try (Connection con = getConnect(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, booking.getCustomer().getCustomerId());
+            ps.executeUpdate();
+
+            // Lấy ID của booking vừa thêm
+            int bookingID = getLastInsertedBookingID(con); // Phương thức để lấy ID của booking vừa thêm
+            addBookingDetail(bookingID, booking.getCar().getCarID(),booking.getCustomer().getCustomerId(),emID, booking.getStartDate().toString(), booking.getEndDate().toString(),slot);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    private static int getLastInsertedBookingID(Connection con) throws SQLException {
+        String sql = "SELECT BookingID from Booking";
+        try (PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+            int id=0;
+            while(rs.next())
+            {
+                id=rs.getInt(1);
+            }
+            return id;
+        }
+    }
+   private static void addBookingDetail(int bookingID, int carID, int custID, int employeeID, String startDate, String endDate, int slot) {
+    String sql = "INSERT INTO BookingDetail (BookingID, CarID, CustID, EmployeeID, StartDate, EndDate, Slot) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    try (Connection con = getConnect(); PreparedStatement ps = con.prepareStatement(sql)) {
+        ps.setInt(1, bookingID);
+        ps.setInt(2, carID);
+        ps.setInt(3, custID);
+        ps.setInt(4, employeeID);
+        ps.setString(5, startDate);
+        ps.setString(6, endDate);
+        ps.setInt(7, slot);
+        ps.executeUpdate();
+        EmployeeRep.updateStatusEmployee(employeeID+"");
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+}
+
 }
 
 

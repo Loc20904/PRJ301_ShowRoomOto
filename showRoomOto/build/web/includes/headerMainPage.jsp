@@ -62,7 +62,7 @@
                                 <a class="dropdown-item" href="admin.jsp">Admin Panel</a>
                             </c:if>
                             <c:if test="${sessionScope.user.role eq 'employee'}">
-                                <a class="dropdown-item" href="s_booking">Your schedule</a>
+                                <a class="dropdown-item" href="s_employee">Your schedule</a>
                             </c:if>
                             <li><a class="dropdown-item text-danger" href="s_logout">Logout</a></li>
                         </ul>

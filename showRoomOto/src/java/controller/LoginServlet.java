@@ -71,8 +71,13 @@ public class LoginServlet extends HttpServlet {
                 // Lưu user vào session
                 request.getSession().setAttribute("user", acc);
 
-                // Điều hướng về trang chính
-                response.sendRedirect("s_Car");
+                String redirectUrl = (String) request.getSession().getAttribute("redirectUrl");
+            if (redirectUrl != null) {
+                request.getSession().removeAttribute("redirectUrl"); // Xóa URL sau khi sử dụng
+                response.sendRedirect(redirectUrl); // Chuyển hướng đến trang đặt xe
+            } else {
+                response.sendRedirect("index.jsp"); // Chuyển hướng đến trang chính nếu không có URL
+            }
             } else {
                 // Nếu sai thông tin, quay lại trang login với thông báo lỗi
                 request.setAttribute("errorMessage", "Invalid email or password!");

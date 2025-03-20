@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@page import="model.Employee" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -25,52 +26,52 @@
                 /* filter: blur(2px); */
             }
             .header {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    background: url('images/header-background.jpg') no-repeat center center; /* Đường dẫn ảnh núi */
-    background-size: cover;
-    z-index: 1050; /* Z-index cao hơn banner để đè lên */
-    padding: 10px 0;
-    transition: background-color 0.3s ease; /* Hiệu ứng chuyển màu khi hover */
-    border-bottom: #ffffff solid 0.05px;
-    padding-bottom: 20px;
-    padding-top: 15px;
-}
-.header:hover {
-    background: linear-gradient(45deg, #b0b0b0, #808080, #a0a0a0); /* Màu kim loại khi hover */
-}
+                position: fixed;
+                top: 0;
+                width: 100%;
+                background: url('images/header-background.jpg') no-repeat center center; /* Đường dẫn ảnh núi */
+                background-size: cover;
+                z-index: 1050; /* Z-index cao hơn banner để đè lên */
+                padding: 10px 0;
+                transition: background-color 0.3s ease; /* Hiệu ứng chuyển màu khi hover */
+                border-bottom: #ffffff solid 0.05px;
+                padding-bottom: 20px;
+                padding-top: 15px;
+            }
+            .header:hover {
+                background: linear-gradient(45deg, #b0b0b0, #808080, #a0a0a0); /* Màu kim loại khi hover */
+            }
 
-.navbar-brand img {
-    height: 30px; /* Điều chỉnh kích thước logo */
-    margin-left: 20px; /* Thêm khoảng cách bên trái cho logo */
-}
+            .navbar-brand img {
+                height: 30px; /* Điều chỉnh kích thước logo */
+                margin-left: 20px; /* Thêm khoảng cách bên trái cho logo */
+            }
 
-.nav-link {
-    color: #ffffff !important; /* Văn bản trắng */
-    font-weight: bold;
-    margin: 0 15px;
-    text-transform: uppercase; /* Chuyển chữ in hoa (tương tự hình) */
-}
-.nav-link:hover {
-    color: #ff8c00 !important; /* Màu cam khi hover (tương tự logo) */
-}
+            .nav-link {
+                color: #ffffff !important; /* Văn bản trắng */
+                font-weight: bold;
+                margin: 0 15px;
+                text-transform: uppercase; /* Chuyển chữ in hoa (tương tự hình) */
+            }
+            .nav-link:hover {
+                color: #ff8c00 !important; /* Màu cam khi hover (tương tự logo) */
+            }
 
-.header-right {
-    display: flex;
-    align-items: center;
-    margin-right: 20px; /* Thêm khoảng cách bên phải */
-}
+            .header-right {
+                display: flex;
+                align-items: center;
+                margin-right: 20px; /* Thêm khoảng cách bên phải */
+            }
 
-.phone-icon, .search-icon, .user-icon {
-    color: #ffffff;
-    margin-left: 15px;
-    cursor: pointer;
-    font-size: 1.2rem; /* Tăng kích thước biểu tượng */
-}
-.phone-icon:hover, .search-icon:hover, .user-icon:hover {
-    color: #ff8c00; /* Màu cam khi hover */
-}
+            .phone-icon, .search-icon, .user-icon {
+                color: #ffffff;
+                margin-left: 15px;
+                cursor: pointer;
+                font-size: 1.2rem; /* Tăng kích thước biểu tượng */
+            }
+            .phone-icon:hover, .search-icon:hover, .user-icon:hover {
+                color: #ff8c00; /* Màu cam khi hover */
+            }
         </style>
         <link rel="stylesheet" href="css/CSS_chatbox.css"/>
     </head>
@@ -125,6 +126,50 @@
                     <td>$${car.price}</td>
                 </tr>
             </table>
+        </div>
+
+        <div class="container mt-5">
+            <div class="card shadow-lg p-4">
+                <h2 class="text-center mb-4">Book To Try This Car</h2>
+                <form method="get" action="s_booking">
+                    <div class="mb-3">
+                        <label for="startDate" class="form-label fw-bold">Start Date</label>
+                        <input type="date" class="form-control" id="startDate" name="startDate" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="endDate" class="form-label fw-bold">End Date</label>
+                        <input type="date" class="form-control" id="endDate" name="endDate" required>
+                    </div>
+
+                    <!-- Chọn Slot -->
+                    <div class="mb-3">
+                        <label for="slot" class="form-label fw-bold">Select Slot</label>
+                        <select class="form-select" id="slot" name="slot" required>
+                            <option value="" selected disabled>Choose a slot</option>
+                            <option value="1">Slot 1( 7h-12h)</option>
+                            <option value="2">Slot 2( 2h-22h)</option>
+                        </select>
+                    </div>
+
+                    <!-- Chọn Employee -->
+                    <div class="mb-3">
+                        <label for="employee" class="form-label fw-bold">Select Employee</label>
+                        <select class="form-select" id="employee" name="employeeID" required>
+                            <option value="" selected disabled>Select an Employee</option>
+                            <c:forEach var="employee" items="${sessionScope.employeeList}">
+                                    <option value="${employee.employeeId}">${employee.fullName}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+
+                    <input type="hidden" name="carID" value="${car.carID}" />
+
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-primary px-4">Book Now</button>
+                    </div>
+                </form>
+            </div>
         </div>
         <!-- Bootstrap JS, jQuery, và Bootstrap Icons -->
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>

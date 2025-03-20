@@ -16,6 +16,8 @@ import model.Car;
 import repository.CarRep;
 import java.sql.*;
 import java.util.List;
+import model.Employee;
+import repository.EmployeeRep;
 
 /**
  *
@@ -129,6 +131,7 @@ public class s_Car extends HttpServlet {
         String cid=request.getParameter("carID");
         Car c=CarRep.getCarByID(Integer.parseInt(cid));
         request.setAttribute("car", c);
+        request.getSession().setAttribute("employeeList", EmployeeRep.getAllActiveEmployees());
         request.getRequestDispatcher("carDetailPage.jsp").forward(request, response);
     }
 

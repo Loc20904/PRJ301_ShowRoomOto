@@ -31,7 +31,7 @@
 
                             <h6 class="mt-3"><i class="bi bi-car-front"></i> Brand</h6>
                             <form method="get" action="s_Car">
-                                <select name="brand" class="form-select border-primary" onchange="this.form.submit()">
+                                <select name="brand" class="form-select no-arrow border-primary" onchange="this.form.submit()">
                                     <option value="allBrand" ${sessionScope.selectedBrand == 'allBrand' ? 'selected' : ''}>All Brands</option>
                                     <option value="VinFast" ${sessionScope.selectedBrand == 'VinFast' ? 'selected' : ''}>VinFast</option>
                                     <option value="Toyota" ${sessionScope.selectedBrand == 'Toyota' ? 'selected' : ''}>Toyota</option>

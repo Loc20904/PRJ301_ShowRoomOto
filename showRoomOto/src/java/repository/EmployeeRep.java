@@ -7,8 +7,11 @@ package repository;
 import java.sql.Connection;
 import java.sql.*;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Employee;
 import static repository.DatabaseInfo.DBURL;
 import static repository.DatabaseInfo.DRIVERNAME;
 import static repository.DatabaseInfo.PASSDB;
@@ -45,5 +48,45 @@ public class EmployeeRep implements DatabaseInfo {
             Logger.getLogger(EmployeeRep.class.getName()).log(Level.SEVERE, null, ex);
         }
         return 0;
+    }
+
+    public static List<Employee> getAllActiveEmployees() {
+        List<Employee> employees = new ArrayList<>();
+        String sql = "SELECT * FROM Employee WHERE Status = 'active'";
+
+        try (Connection conn = getConnect(); PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Employee emp = new Employee(
+                        rs.getInt("EmployeeID"),
+                        rs.getString("FullName"),
+                        rs.getString("Address"),
+                        rs.getString("PhoneNumber"),
+                        rs.getString("Email"),
+                        rs.getString("Position"),
+                        rs.getString("Status")
+                );
+                employees.add(emp);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return employees;
+    }
+
+    public static void updateStatusEmployee(String emid) {
+        String sql = "update Employee set Status = 'inactive' where EmployeeID = ?";
+        try (Connection con = getConnect(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, emid);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) {
+        for (Employee e : getAllActiveEmployees()) {
+            System.out.println(e);
+        }
     }
 }

@@ -103,6 +103,11 @@ public class Account {
     public void setCustomerId(int customerId) {
         this.customerId = customerId;
     }
+
+    @Override
+    public String toString() {
+        return "Account{" + "accId=" + accId + ", username=" + username + ", password=" + password + ", email=" + email + ", role=" + role + ", authority=" + authority + ", regisDate=" + regisDate + ", customerId=" + customerId + '}';
+    }
     
     
 }
