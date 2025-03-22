@@ -39,6 +39,15 @@ public class LoginServlet extends HttpServlet {
                 // Đăng nhập thành công, chuyển hướng về trang chính
                 request.getSession().setAttribute("user", acc);
                 
+                if(!AccountRep.isUsernameExists(email))
+                {
+                    response.sendRedirect("registerGoogle.jsp");
+                    return;
+                }
+                else{
+                    acc=AccountRep.getAccountByEmail(email);
+                    request.getSession().setAttribute("user", acc);
+                }
                 response.sendRedirect("index.jsp"); // Đổi thành trang chính của bạn
 
             } else {

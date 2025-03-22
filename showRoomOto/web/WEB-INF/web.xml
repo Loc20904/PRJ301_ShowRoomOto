@@ -22,7 +22,11 @@
     </servlet>
     <servlet>
         <servlet-name>s_employee</servlet-name>
-        <servlet-class>java.controller.s_employee</servlet-class>
+        <servlet-class>controller.s_employee</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>s_regisGoogle</servlet-name>
+        <servlet-class>controller.s_regisGoogle</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>s_Car</servlet-name>
@@ -55,6 +59,10 @@
     <servlet-mapping>
         <servlet-name>s_employee</servlet-name>
         <url-pattern>/s_employee</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>s_regisGoogle</servlet-name>
+        <url-pattern>/s_regisGoogle</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>s_Car</welcome-file>

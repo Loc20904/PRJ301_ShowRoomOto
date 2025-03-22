@@ -83,6 +83,27 @@ public class EmployeeRep implements DatabaseInfo {
             e.printStackTrace();
         }
     }
+    public static Employee getEmployeeById(int employeeId) {
+    String sql = "SELECT * FROM Employee WHERE EmployeeID = ?";
+    try (Connection con = getConnect(); PreparedStatement stmt = con.prepareStatement(sql)) {
+        stmt.setInt(1, employeeId);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            return new Employee(
+                    rs.getInt("EmployeeID"),
+                    rs.getString("FullName"),
+                    rs.getString("Address"),
+                    rs.getString("PhoneNumber"),
+                    rs.getString("Email"),
+                    rs.getString("Position"),
+                    rs.getString("Status")
+            );
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return null;
+}
 
     public static void main(String[] args) {
         for (Employee e : getAllActiveEmployees()) {

@@ -1,8 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
 package repository;
 
 import java.sql.*;
@@ -14,9 +9,9 @@ import static repository.DatabaseInfo.DRIVERNAME;
 import static repository.DatabaseInfo.PASSDB;
 import static repository.DatabaseInfo.USERDB;
 
+public class CustomerRep implements DatabaseInfo {
 
-public class CustomerRep implements DatabaseInfo{
-public static java.sql.Connection getConnect() {
+    public static java.sql.Connection getConnect() {
         try {
             Class.forName(DRIVERNAME);
         } catch (ClassNotFoundException e) {
@@ -30,7 +25,8 @@ public static java.sql.Connection getConnect() {
         }
         return null;
     }
-     public static Customer getCustomerByID(int customerID) {
+
+    public static Customer getCustomerByID(int customerID) {
         Customer customer = null;
         String sql = "SELECT * FROM Customer WHERE customerID = ?";
         try (Connection con = getConnect()) {
@@ -50,4 +46,32 @@ public static java.sql.Connection getConnect() {
         }
         return customer;
     }
+
+    public static int addCustomer(String fullName, String address, String phoneNumber, String email) {
+        String query = "INSERT INTO Customer (FullName, Address, PhoneNumber, email) VALUES (?, ?, ?, ?)";
+        int customerID = -1; // Giá trị mặc định nếu không lấy được ID
+
+        try (Connection conn = getConnect(); PreparedStatement ps = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+
+            ps.setString(1, fullName);
+            ps.setString(2, address);
+            ps.setString(3, phoneNumber);
+            ps.setString(4, email);
+
+            int rowsInserted = ps.executeUpdate();
+
+            if (rowsInserted > 0) {
+                ResultSet rs = ps.getGeneratedKeys(); // Lấy khóa chính được tạo tự động
+                if (rs.next()) {
+                    customerID = rs.getInt(1);
+                    System.out.println("Thêm khách hàng thành công! ID: " + customerID);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Lỗi khi thêm khách hàng: " + e);
+        }
+
+        return customerID;
+    }
+
 }

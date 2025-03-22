@@ -1,27 +1,24 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 
 package controller;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
 import model.Account;
-import model.Booking;
-import repository.EmployeeRep;
-import repository.bookingRep;
+import repository.AccountRep;
+import repository.CustomerRep;
 
 /**
  *
  * @author phuc2
  */
-public class s_employee extends HttpServlet {
+
+@WebServlet(name = "s_regisGoogle", urlPatterns = {"/s_regisGoogle"})
+public class s_regisGoogle extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -38,10 +35,10 @@ public class s_employee extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet s_employee</title>");  
+            out.println("<title>Servlet s_regisGoogle</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet s_employee at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet s_regisGoogle at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -58,11 +55,7 @@ public class s_employee extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-       Account em = (Account) request.getSession().getAttribute("user");
-        int emid = EmployeeRep.getEmID(em.getEmail());
-        List<Booking> lbk = bookingRep.getBookingsByEmployee(emid);
-        request.setAttribute("lbk", lbk);
-        request.getRequestDispatcher("employeePage.jsp").forward(request, response);
+        processRequest(request, response);
     } 
 
     /** 
@@ -75,7 +68,14 @@ public class s_employee extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        String ad=request.getParameter("address");
+        String phone=request.getParameter("Phone");
+        Account user=(Account)request.getSession().getAttribute("user");
+        int cusid=CustomerRep.addCustomer(user.getUsername(), ad, phone, user.getEmail());
+        AccountRep.addAccount(user.getUsername(), user.getEmail(), "user", "normal", cusid);
+        user.setRole("user");
+        user.setCustomerId(cusid);
+        response.sendRedirect("s_Car");
     }
 
     /** 

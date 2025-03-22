@@ -106,6 +106,8 @@ public class s_booking extends HttpServlet {
         booking.setStartDate(LocalDate.parse(startDate));
         booking.setEndDate(LocalDate.parse(endDate));
         booking.setCar(CarRep.getCarByID(carID));
+        booking.setSlot(slot);
+        booking.setEmployee(EmployeeRep.getEmployeeById(employeeID));
 
         // Lưu thông tin đặt xe vào database
         bookingRep.addBooking(booking, slot, employeeID);
