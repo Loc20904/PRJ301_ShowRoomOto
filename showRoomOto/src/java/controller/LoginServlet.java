@@ -35,10 +35,10 @@ public class LoginServlet extends HttpServlet {
                 // Ví dụ: Lấy email và tên
                 String email = userInfo.get("email").getAsString();
                 String name = userInfo.get("name").getAsString();
-                Account acc=new Account(name, email);
+                Account acc = new Account(name, email);
+
                 // Đăng nhập thành công, chuyển hướng về trang chính
                 request.getSession().setAttribute("user", acc);
-                
                 response.sendRedirect("index.jsp"); // Đổi thành trang chính của bạn
 
             } else {
@@ -59,13 +59,29 @@ public class LoginServlet extends HttpServlet {
         try {
             acc = AccountRep.checkLogin(email, password);
             if (acc != null) {
-                // Nếu chọn "Remember Me", lưu email vào cookie
+                // Nếu chọn "Remember Me", lưu email và mật khẩu vào cookie
                 if ("on".equals(rememberMe)) {
                     Cookie emailCookie = new Cookie("userEmail", email);
                     emailCookie.setMaxAge(7 * 24 * 60 * 60); // Lưu trong 7 ngày
+                    emailCookie.setPath("/"); // Đảm bảo cookie có thể truy cập trên toàn bộ ứng dụng
                     Cookie passCookie = new Cookie("pw", password);
                     passCookie.setMaxAge(7 * 24 * 60 * 60); // Lưu trong 7 ngày
+                    passCookie.setPath("/"); // Đảm bảo cookie có thể truy cập trên toàn bộ ứng dụng
                     response.addCookie(emailCookie);
+                    response.addCookie(passCookie);
+                    // Thêm log để kiểm tra
+                    System.out.println("Remember Me selected - Cookies set: userEmail=" + email + ", pw=" + password);
+                } else {
+                    // Xóa cookie nếu không chọn Remember Me
+                    Cookie emailCookie = new Cookie("userEmail", "");
+                    emailCookie.setMaxAge(0);
+                    emailCookie.setPath("/"); // Đảm bảo xóa cookie trên toàn bộ ứng dụng
+                    Cookie passCookie = new Cookie("pw", "");
+                    passCookie.setMaxAge(0);
+                    passCookie.setPath("/"); // Đảm bảo xóa cookie trên toàn bộ ứng dụng
+                    response.addCookie(emailCookie);
+                    response.addCookie(passCookie);
+                    System.out.println("Remember Me not selected - Cookies cleared");
                 }
 
                 // Lưu user vào session
@@ -80,12 +96,13 @@ public class LoginServlet extends HttpServlet {
             }
         } catch (SQLException ex) {
             Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("errorMessage", "Error: " + ex.getMessage());
+            request.getRequestDispatcher("login.jsp").forward(request, response);
         }
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
     }
 }

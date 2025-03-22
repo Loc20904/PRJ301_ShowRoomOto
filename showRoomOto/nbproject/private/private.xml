@@ -3,12 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/phuc2/OneDrive/Máy%20tính/PRJ301/PRJ301_ShowRoomOto/showRoomOto/src/java/controller/GoogleLogin.java</file>
-            <file>file:/C:/Users/phuc2/OneDrive/Máy%20tính/PRJ301/PRJ301_ShowRoomOto/showRoomOto/src/java/controller/LoginServlet.java</file>
-            <file>file:/C:/Users/phuc2/OneDrive/Máy%20tính/PRJ301/PRJ301_ShowRoomOto/showRoomOto/src/java/model/Account.java</file>
-            <file>file:/C:/Users/phuc2/OneDrive/Máy%20tính/PRJ301/PRJ301_ShowRoomOto/showRoomOto/web/login.jsp</file>
-            <file>file:/C:/Users/phuc2/OneDrive/Máy%20tính/PRJ301/PRJ301_ShowRoomOto/showRoomOto/web/index.jsp</file>
-            <file>file:/C:/Users/phuc2/OneDrive/Máy%20tính/PRJ301/PRJ301_ShowRoomOto/showRoomOto/src/java/constant/Iconstant.java</file>
+            <file>file:/D:/WEB%20PRJ301/PRJ301_ShowRoomOto/showRoomOto/web/deverloping.jsp</file>
+            <file>file:/D:/WEB%20PRJ301/PRJ301_ShowRoomOto/showRoomOto/src/java/repository/AccountRep.java</file>
+            <file>file:/D:/WEB%20PRJ301/PRJ301_ShowRoomOto/showRoomOto/web/login.jsp</file>
+            <file>file:/D:/WEB%20PRJ301/PRJ301_ShowRoomOto/showRoomOto/src/java/controller/LoginServlet.java</file>
+            <file>file:/D:/WEB%20PRJ301/PRJ301_ShowRoomOto/showRoomOto/src/java/controller/s_logout.java</file>
+            <file>file:/D:/WEB%20PRJ301/PRJ301_ShowRoomOto/showRoomOto/src/java/controller/GoogleLogin.java</file>
         </group>
     </open-files>
 </project-private>
