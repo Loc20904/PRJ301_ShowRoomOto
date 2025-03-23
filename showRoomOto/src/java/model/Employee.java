@@ -29,6 +29,15 @@ public class Employee {
         this.status = status;
     }
 
+     public Employee(int employeeId, String fullName, String address, String phoneNumber, String email) {
+        this.employeeId = employeeId;
+        this.fullName = fullName;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+    }
+
+
     // Getters and Setters
     public int getEmployeeId() {
         return employeeId;

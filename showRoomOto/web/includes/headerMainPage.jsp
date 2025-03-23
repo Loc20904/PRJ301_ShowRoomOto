@@ -59,7 +59,7 @@
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                             <li><a class="dropdown-item" href="s_customer">Information</a></li>
                             <c:if test="${sessionScope.user.role eq 'admin'}">
-                                <a class="dropdown-item" href="admin.jsp">Admin Panel</a>
+                                <a class="dropdown-item" href="indexAdmin.jsp">Admin Panel</a>
                             </c:if>
                             <c:if test="${sessionScope.user.role eq 'employee'}">
                                 <a class="dropdown-item" href="s_employee">Your schedule</a>

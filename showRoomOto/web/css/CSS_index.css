@@ -12,11 +12,12 @@ body{
     padding: 0;
     z-index: 1000; /* Z-index thấp hơn header để bị đè */
 }
+
 .carousel-inner {
     width: 100%;
 }
 .carousel-item {
-    height: 700px; /* Điều chỉnh chiều cao theo nhu cầu */
+    height: 100vh;; /* Điều chỉnh chiều cao theo nhu cầu */
     background-size: cover;
     background-position: center;
 }

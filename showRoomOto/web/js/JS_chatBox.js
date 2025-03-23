@@ -34,7 +34,7 @@ async function sendMessage() {
 
         let data = await response.json();
         let botResponse = data.response || "Không có phản hồi từ AI.";
-        chatBox.innerHTML += `<div><b>Gemini:</b> ${botResponse}</div>`;
+        chatBox.innerHTML += `<div><b>OTOZO:</b> ${botResponse}</div>`;
     } catch (error) {
         console.error("Lỗi kết nối AI:", error);
         chatBox.innerHTML += `<div style="color:red;"><b>Lỗi:</b> Không thể kết nối AI!</div>`;

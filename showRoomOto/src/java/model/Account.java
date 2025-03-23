@@ -17,6 +17,7 @@ public class Account {
     private String authority;
     private LocalDate regisDate;
     private int customerId;
+    private int employeeId;
 
     // Default constructor
     public Account() {
@@ -39,6 +40,20 @@ public class Account {
         this.customerId = customerId;
     }
 
+    public Account(int accId, String username, String password, String email, String role, String authority, LocalDate regisDate, int customerId, int employeeId) {
+        this.accId = accId;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.role = role;
+        this.authority = authority;
+        this.regisDate = regisDate;
+        this.customerId = customerId;
+        this.employeeId = employeeId;
+    }
+
+    
+    
     // Getters and Setters
     public int getAccId() {
         return accId;
@@ -102,6 +117,14 @@ public class Account {
 
     public void setCustomerId(int customerId) {
         this.customerId = customerId;
+    }
+
+    public int getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(int employeeId) {
+        this.employeeId = employeeId;
     }
 
     @Override

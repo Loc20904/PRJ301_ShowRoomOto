@@ -1,0 +1,249 @@
+/* Đảm bảo màu chữ mặc định của body là trắng */
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #000;
+    font-family: 'Montserrat', sans-serif;
+    overflow: hidden;
+    position: relative;
+    color: #fff;
+}
+
+/* Video nền */
+#background-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    filter: brightness(0.8);
+}
+
+/* Lớp phủ gradient trên video */
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.4));
+    z-index: 2;
+}
+
+/* Container đăng ký */
+.register-container {
+    background: rgba(255, 255, 255, 0.05);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 3rem 2rem;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    position: relative;
+    z-index: 3;
+    -webkit-animation: fadeIn 1s ease-in-out forwards;
+    animation: fadeIn 1s ease-in-out forwards;
+}
+
+/* Animation fadeIn */
+@-webkit-keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Pseudo-element ::before cho container */
+.register-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0));
+    border-radius: 15px;
+    z-index: -1;
+}
+
+/* Logo */
+.logo {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.logo img {
+    width: 80px;
+    filter: brightness(1.2);
+}
+
+/* Tiêu đề */
+h2 {
+    font-family: 'Montserrat', sans-serif;
+    color: #fff;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Nhãn của ô nhập liệu */
+.form-floating label {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    padding-left: 2.5rem; /* Thêm padding-left để nhãn không bị icon che khuất */
+    transition: all 0.3s ease;
+}
+
+/* Ô nhập liệu */
+.form-floating input {
+    border: none;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.4);
+    border-radius: 0;
+    background: transparent;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 500;
+    padding: 0.75rem 0.5rem 0.75rem 2.5rem; /* Giảm padding-left xuống 2.5rem để icon và chữ gần nhau hơn */
+    transition: all 0.3s ease;
+}
+
+/* Hiệu ứng khi focus ô nhập liệu */
+.form-floating input:focus {
+    border-bottom: 2px solid #c00;
+    box-shadow: none;
+    background: transparent;
+    /*color: #fff;*/
+}
+
+/* Hiệu ứng hover cho ô nhập liệu */
+.form-floating input:hover {
+    border-bottom: 2px solid rgba(255, 255, 255, 0.7);
+}
+
+/* Hiệu ứng cho nhãn khi focus hoặc có nội dung */
+.form-floating input:focus ~ label,
+.form-floating input:not(:placeholder-shown) ~ label {
+    color: #c00;
+    transform: translateY(-1.5rem) scale(0.9);
+    font-size: 0.9rem;
+}
+
+/* Placeholder của ô nhập liệu */
+.form-floating input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 400;
+}
+
+/* Container cho icon và ô nhập liệu */
+.input-icon {
+    position: relative;
+}
+
+/* Biểu tượng (icon) */
+.input-icon i {
+    position: absolute;
+    top: 50%;
+    left: 10px; /* Giảm left xuống 10px để icon gần mép trái hơn */
+    transform: translateY(-50%);
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+}
+
+/* Hiệu ứng hover cho icon */
+.input-icon:hover i {
+    color: #fff;
+}
+
+/* Hiệu ứng focus cho icon */
+.input-icon input:focus + i {
+    color: #c00;
+    transform: translateY(-50%) scale(1.1);
+}
+
+/* Nút Submit */
+.btn-submit {
+    background: linear-gradient(90deg, #c00, #900);
+    border: none;
+    padding: 0.85rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    border-radius: 50px;
+    color: #fff;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(204, 0, 0, 0.4);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-submit::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: 0.5s;
+}
+
+.btn-submit:hover::before {
+    left: 100%;
+}
+
+.btn-submit:hover {
+    background: linear-gradient(90deg, #900, #c00);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(204, 0, 0, 0.6);
+}
+
+/* Liên kết "Back to Login" */
+.back-to-login {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.back-to-login a {
+    color: #c00;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: color 0.3s ease;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.back-to-login a:hover {
+    color: #fff;
+}
+
+/* Hiệu ứng hover cho container */
+.register-container:hover {
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7);
+}

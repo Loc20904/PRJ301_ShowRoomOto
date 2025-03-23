@@ -93,7 +93,6 @@ public class CarRep implements DatabaseInfo{
         public static List<Car> getFilteredCars(String brand, String priceOrder) {
         List<Car> carList = new ArrayList<>();
         String sql = "SELECT * FROM Car WHERE 1=1"; // Base SQL
-            System.out.println(brand+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         if (brand != null && !brand.equalsIgnoreCase("allBrand")) {
             sql += " AND brand = ?";
         }
@@ -131,7 +130,104 @@ public class CarRep implements DatabaseInfo{
         }
         return carList;
     }
-         
+         public Car getCarById(int carID) {
+        Car car = null;
+        String sql = "SELECT * FROM Car WHERE CarID = ?";
+
+        try (Connection conn = getConnect();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setInt(1, carID);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    car = new Car(
+                            rs.getInt("CarID"),
+                            rs.getString("carName"),
+                            rs.getString("type"),
+                            rs.getString("brand"),
+                            rs.getString("description"),
+                            rs.getDouble("price"),
+                            rs.getInt("year_of_manufacture"),
+                            rs.getDouble("weight"),
+                            rs.getInt("StockQuantity"),
+                            rs.getString("imageURL") // Thêm imageURL
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return car;
+    }
+
+    public boolean updateCar(Car car) {
+        String sql = "UPDATE Car SET carName=?, type=?, brand=?, description=?, price=?, year_of_manufacture=?, weight=?, StockQuantity=?, imageURL=? WHERE CarID=?";
+
+        try (Connection conn = getConnect();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, car.getCarName());
+            stmt.setString(2, car.getType());
+            stmt.setString(3, car.getBrand());
+            stmt.setString(4, car.getDescription());
+            stmt.setDouble(5, car.getPrice());
+            stmt.setInt(6, car.getYearOfManufacture());
+            stmt.setDouble(7, car.getWeight());
+            stmt.setInt(8, car.getStockQuantity());
+            stmt.setString(9, car.getImageURL()); // Thêm imageURL
+            stmt.setInt(10, car.getCarID());
+
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean deleteCar(int carID) {
+        String sql = "DELETE FROM Car WHERE CarID=?";
+
+        try (Connection conn = getConnect();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, carID);
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static int newCar(Car car) {
+        int id = -1;
+        String sql = "INSERT INTO Car (carName, type, brand, description, price, year_of_manufacture, weight, StockQuantity, imageURL) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection con = getConnect();
+             PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+            stmt.setString(1, car.getCarName());
+            stmt.setString(2, car.getType());
+            stmt.setString(3, car.getBrand());
+            stmt.setString(4, car.getDescription());
+            stmt.setDouble(5, car.getPrice());
+            stmt.setInt(6, car.getYearOfManufacture());
+            stmt.setDouble(7, car.getWeight());
+            stmt.setInt(8, car.getStockQuantity());
+            stmt.setString(9, car.getImageURL()); // Thêm imageURL
+
+            int affectedRows = stmt.executeUpdate();
+            if (affectedRows > 0) {
+                try (ResultSet rs = stmt.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        id = rs.getInt(1);
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CarRep.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return id;
+    }
     public static void main(String[] args) {
         for(Car c:getall())
         {

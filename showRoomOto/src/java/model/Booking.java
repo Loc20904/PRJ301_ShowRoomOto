@@ -22,7 +22,8 @@ public class Booking {
     // Constructor
     public Booking() {}
 
-    public Booking(int bookingID, Customer customer, LocalDate bookingDate, String status, Car car, Employee employee, LocalDate startDate, LocalDate endDate, int slot) {
+    public Booking(int bookingID, Customer customer, LocalDate bookingDate, String status,
+            Car car, Employee employee, LocalDate startDate, LocalDate endDate, int slot) {
         this.bookingID = bookingID;
         this.customer = customer;
         this.bookingDate = bookingDate;

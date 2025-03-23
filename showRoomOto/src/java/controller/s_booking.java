@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.util.List;
 import model.Account;
 import model.Booking;
+import model.Car;
 import model.Customer;
 import model.Employee;
 import repository.CarRep;
@@ -67,6 +68,14 @@ public class s_booking extends HttpServlet {
         if (session.getAttribute("user") == null) {
         // Lưu các thông tin cần thiết vào session để chuyển hướng sau khi đăng nhập
         String carID = request.getParameter("carID");
+        if(request.getAttribute("erormess")!=null)
+        {
+            Car c=CarRep.getCarByID(Integer.parseInt(carID));
+            request.setAttribute("car", c);
+            request.getSession().setAttribute("employeeList", EmployeeRep.getAllActiveEmployees());
+            request.getRequestDispatcher("carDetailPage.jsp").forward(request, response);
+            return;
+        }
         String startDate = request.getParameter("startDate");
         String endDate = request.getParameter("endDate");
         String slot = request.getParameter("slot");

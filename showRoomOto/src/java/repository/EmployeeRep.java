@@ -83,27 +83,125 @@ public class EmployeeRep implements DatabaseInfo {
             e.printStackTrace();
         }
     }
+
     public static Employee getEmployeeById(int employeeId) {
-    String sql = "SELECT * FROM Employee WHERE EmployeeID = ?";
-    try (Connection con = getConnect(); PreparedStatement stmt = con.prepareStatement(sql)) {
-        stmt.setInt(1, employeeId);
-        ResultSet rs = stmt.executeQuery();
-        if (rs.next()) {
-            return new Employee(
-                    rs.getInt("EmployeeID"),
-                    rs.getString("FullName"),
-                    rs.getString("Address"),
-                    rs.getString("PhoneNumber"),
-                    rs.getString("Email"),
-                    rs.getString("Position"),
-                    rs.getString("Status")
-            );
+        String sql = "SELECT * FROM Employee WHERE EmployeeID = ?";
+        try (Connection con = getConnect(); PreparedStatement stmt = con.prepareStatement(sql)) {
+            stmt.setInt(1, employeeId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return new Employee(
+                        rs.getInt("EmployeeID"),
+                        rs.getString("FullName"),
+                        rs.getString("Address"),
+                        rs.getString("PhoneNumber"),
+                        rs.getString("Email"),
+                        rs.getString("Position"),
+                        rs.getString("Status")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
+        return null;
     }
-    return null;
-}
+
+    public static Employee getEmployeeByEmail(String email) {
+        Connection conn = AccountRep.getConnect();
+        String sql = "SELECT * FROM Employee WHERE email = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, email);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return new Employee(
+                        rs.getInt("EmployeeID"),
+                        rs.getString("FullName"),
+                        rs.getString("Address"),
+                        rs.getString("PhoneNumber"),
+                        rs.getString("Email"),
+                        rs.getString("Position"),
+                        "active"
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public boolean updateEmployee(Employee employee) {
+        String sql = "UPDATE Employee SET FullName=?, Address=?, PhoneNumber=?, Email=? WHERE EmployeeID=?";
+        try (Connection conn = getConnect(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, employee.getFullName());
+            ps.setString(2, employee.getAddress());
+            ps.setString(3, employee.getPhoneNumber());
+            ps.setString(4, employee.getEmail());
+            ps.setInt(5, employee.getEmployeeId());
+
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static int newEmployee(Employee e) {
+        int id = -1;
+        String sql = "INSERT INTO Employee (FullName, Address, PhoneNumber, Email, Position, Status) "
+                + "OUTPUT INSERTED.EmployeeID VALUES (?, ?, ?, ?, ?, ?)";
+
+        try (Connection con = getConnect(); PreparedStatement stmt = con.prepareStatement(sql)) {
+            stmt.setString(1, e.getFullName());
+            stmt.setString(2, e.getAddress());
+            stmt.setString(3, e.getPhoneNumber());
+            stmt.setString(4, e.getEmail());
+            stmt.setString(5, e.getPosition());
+            stmt.setString(6, e.getStatus());
+
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                id = rs.getInt(1);
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return id;
+    }
+
+    // Xóa nhân viên theo ID
+    public boolean deleteEmployee(int employeeID) {
+        try (Connection conn = getConnect()) {
+            PreparedStatement stmt = conn.prepareStatement("DELETE FROM Employee WHERE EmployeeID = ?");
+            stmt.setInt(1, employeeID);
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static ArrayList<Employee> listAllEmployees() {
+        ArrayList<Employee> list = new ArrayList<>();
+        try (Connection con = getConnect()) {
+            PreparedStatement stmt = con.prepareStatement("SELECT * FROM Employee");
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                list.add(new Employee(
+                        rs.getInt("EmployeeID"),
+                        rs.getString("FullName"),
+                        rs.getString("Address"),
+                        rs.getString("PhoneNumber"),
+                        rs.getString("Email"),
+                        rs.getString("Position"),
+                        rs.getString("Status")
+                ));
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(EmployeeRep.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
 
     public static void main(String[] args) {
         for (Employee e : getAllActiveEmployees()) {

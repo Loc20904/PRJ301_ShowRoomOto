@@ -35,8 +35,7 @@ public class bookingRep implements DatabaseInfo{
         }
         return null;
     }
-    
-    
+        
     public static List<Booking> getBookingsByEmployee(int employeeId) {
         List<Booking> bookings = new ArrayList<>();
         String sql = "SELECT b.BookingID, c.customerID, c.FullName AS CustomerName, b.BookingDate, b.Status, " +

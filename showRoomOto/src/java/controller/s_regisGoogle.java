@@ -68,6 +68,11 @@ public class s_regisGoogle extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        if(request.getAttribute("erormess")!=null)
+        {
+            request.getRequestDispatcher("registerGoogle.jsp").forward(request, response);
+            return;
+        }
         String ad=request.getParameter("address");
         String phone=request.getParameter("Phone");
         Account user=(Account)request.getSession().getAttribute("user");

@@ -130,6 +130,9 @@
 
         <div class="container mt-5">
             <div class="card shadow-lg p-4">
+                <c:if test="${requestScope.erormess}!=null">
+                    <a class="text-center mb-4">${requestScope.erormess}</a>
+                </c:if>
                 <h2 class="text-center mb-4">Book To Try This Car</h2>
                 <form method="get" action="s_booking">
                     <div class="mb-3">
@@ -148,7 +151,7 @@
                         <select class="form-select" id="slot" name="slot" required>
                             <option value="" selected disabled>Choose a slot</option>
                             <option value="1">Slot 1( 7h-12h)</option>
-                            <option value="2">Slot 2( 2h-22h)</option>
+                            <option value="2">Slot 2( 14h-22h)</option>
                         </select>
                     </div>
 

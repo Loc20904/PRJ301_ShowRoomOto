@@ -30,8 +30,9 @@ body {
         <div class="row">
             <div class="col-12">
                 <div class="mb-5">
+                    <h6 class="display-5 fw-bold text-center" style="color: #1e90ff;">${requestScope.errorMessage}</h6>
                     <h2 class="display-5 fw-bold text-center">Sign in</h2>
-                    <p class="text-center m-0">Don't have an account? <a href="#!">Sign up</a></p>
+                    <p class="text-center m-0">Don't have an account? <a href="signup.jsp">Sign up</a></p>
                 </div>
             </div>
         </div>
@@ -65,7 +66,7 @@ body {
                                         </div>
                                         <div class="col-6">
                                             <div class="text-end">
-                                                <a href="#!" class="link-secondary text-decoration-none" style="color: black;">Forgot password?</a>
+                                                <a href="forgotPassword.jsp" class="link-secondary text-decoration-none" style="color: black;">Forgot password?</a>
                                             </div>
                                         </div>
                                     </div>
