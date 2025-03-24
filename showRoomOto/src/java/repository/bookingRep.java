@@ -84,6 +84,55 @@ public class bookingRep implements DatabaseInfo{
         }
         return bookings;
     }
+    
+        public static List<Booking> getBookingsByCustomer(int cusID) {
+        List<Booking> bookings = new ArrayList<>();
+        String sql = "SELECT b.BookingID, c.customerID, c.FullName AS CustomerName, b.BookingDate, b.Status, " +
+                     "bd.StartDate, bd.EndDate, bd.Slot, car.CarID, car.carName, " +
+                     "e.EmployeeID, e.FullName AS EmployeeName " +
+                     "FROM Booking b " +
+                     "JOIN BookingDetail bd ON b.BookingID = bd.BookingID " +
+                     "JOIN Customer c ON b.customerID = c.customerID " +
+                     "JOIN Car car ON bd.CarID = car.CarID " +
+                     "JOIN Employee e ON bd.EmployeeID = e.EmployeeID " +
+                     "WHERE b.customerID = ?";
+
+        try (Connection conn = getConnect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, cusID);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Customer customer = new Customer();
+                customer.setCustomerId(rs.getInt("customerID"));
+                customer.setFullName(rs.getString("CustomerName"));
+
+                Car car = new Car();
+                car.setCarID(rs.getInt("CarID"));
+                car.setCarName(rs.getString("carName"));
+
+                Employee employee = new Employee();
+                employee.setEmployeeId(rs.getInt("EmployeeID"));
+                employee.setFullName(rs.getString("EmployeeName"));
+
+                Booking booking = new Booking();
+                booking.setBookingID(rs.getInt("BookingID"));
+                booking.setCustomer(customer);
+                booking.setBookingDate(rs.getDate("BookingDate").toLocalDate());
+                booking.setStatus(rs.getString("Status"));
+                booking.setStartDate(rs.getDate("StartDate").toLocalDate());
+                booking.setEndDate(rs.getDate("EndDate").toLocalDate());
+                booking.setSlot(rs.getInt("Slot"));
+                booking.setCar(car);
+                booking.setEmployee(employee);
+
+                bookings.add(booking);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return bookings;
+    }
     public static void addBooking(Booking booking,int slot,int emID) {
         
         String sql = "INSERT INTO Booking (customerID, BookingDate, Status) VALUES (?, GETDATE(), 'pending')";
@@ -125,7 +174,35 @@ public class bookingRep implements DatabaseInfo{
         e.printStackTrace();
     }
 }
+   public static void cancelBooking(int bookingId) {
+        String sql = "UPDATE Booking SET status = 'canceled', EndDate = CAST(GETDATE() AS DATE) WHERE BookingID = ?";
+        try (Connection conn = getConnect();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, bookingId);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+   public boolean updateBookingStatus(int bookingId) {
+    String query = "UPDATE Booking SET status = 'complete', EndDate = CAST(GETDATE() AS DATE) WHERE bookingID = ?";
 
+    try (Connection conn = getConnect();
+         PreparedStatement ps = conn.prepareStatement(query)) {
+        ps.setInt(1, bookingId);
+
+        return ps.executeUpdate() > 0; // Trả về true nếu có ít nhất 1 dòng bị ảnh hưởng
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return false;
+}
+    public static void main(String[] args) {
+        for(Booking b:getBookingsByCustomer(1))
+        {
+            System.out.println(b.toString());
+        }
+    }
 }
 
 

@@ -120,10 +120,7 @@
                     <ul class="list-group">
                         <li class="list-group-item"><strong>Car Name:</strong> ${booking.car.carName}</li>
                         <li class="list-group-item"><strong>Start Date:</strong> ${booking.startDate}</li>
-                        <li class="list-group-item"><strong>End Date:</strong> ${booking.endDate}</li>
                         <li class="list-group-item"><strong>Employee:</strong> ${booking.employee.fullName}</li>
-                        <li class="list-group-item"><strong>Address:</strong> ${booking.address}</li>
-                        <li class="list-group-item"><strong>Phone Number:</strong> ${booking.phoneNumber}</li>
                         <c:if test="${booking.slot == 1}">
                             <li class="list-group-item"><strong>Time:</strong> 7h - 12h</li>
                         </c:if>

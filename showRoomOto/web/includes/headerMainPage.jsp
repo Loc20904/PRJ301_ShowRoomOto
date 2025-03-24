@@ -64,6 +64,9 @@
                             <c:if test="${sessionScope.user.role eq 'employee'}">
                                 <a class="dropdown-item" href="s_employee">Your schedule</a>
                             </c:if>
+                            <c:if test="${sessionScope.user.role eq 'user'}">
+                                <a class="dropdown-item" href="View_Historybooking">Booking History</a>
+                            </c:if>
                             <li><a class="dropdown-item text-danger" href="s_logout">Logout</a></li>
                         </ul>
                     </div>

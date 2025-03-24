@@ -16,7 +16,7 @@
         <filter-name>f_booking</filter-name>
         <servlet-name>s_booking</servlet-name>
     </filter-mapping>
-        <servlet-mapping>
+    <servlet-mapping>
         <servlet-name>s_customer</servlet-name>
         <url-pattern>/s_customer</url-pattern>
     </servlet-mapping>

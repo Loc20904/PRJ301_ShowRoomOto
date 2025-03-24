@@ -48,7 +48,13 @@ public class LoginServlet extends HttpServlet {
                     acc=AccountRep.getAccountByEmail(email);
                     request.getSession().setAttribute("user", acc);
                 }
-                response.sendRedirect("index.jsp"); // Đổi thành trang chính của bạn
+                String redirectUrl = (String) request.getSession().getAttribute("redirectUrl");
+            if (redirectUrl != null) {
+                request.getSession().removeAttribute("redirectUrl"); // Xóa URL sau khi sử dụng
+                response.sendRedirect(redirectUrl); // Chuyển hướng đến trang đặt xe
+            } else {
+                response.sendRedirect("index.jsp"); // Chuyển hướng đến trang chính nếu không có URL
+            }
 
             } else {
                 response.getWriter().println("Failed to get access token.");

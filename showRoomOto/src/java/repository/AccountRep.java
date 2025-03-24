@@ -107,32 +107,33 @@ public class AccountRep implements DatabaseInfo {
     }
 
     public static Account getAccountByEmail(String email) {
-        String query = "SELECT * FROM Account WHERE email = ?";
-        Account account = null;
+    String query = "SELECT * FROM Account WHERE email = ?";
+    Account account = null;
 
-        try (Connection conn = getConnect(); PreparedStatement ps = conn.prepareStatement(query)) {
+    try (Connection conn = getConnect(); PreparedStatement ps = conn.prepareStatement(query)) {
+        ps.setString(1, email);
+        ResultSet rs = ps.executeQuery();
 
-            ps.setString(1, email);
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                account = new Account(
-                        rs.getInt("accId"),
-                        rs.getString("username"),
-                        rs.getString("password"),
-                        rs.getString("email"),
-                        rs.getString("role"),
-                        rs.getString("authority"),
-                        rs.getDate("regisDate").toLocalDate(),
-                        rs.getInt("customerId")
-                );
-            }
-        } catch (SQLException e) {
-            System.out.println("Lỗi khi lấy tài khoản: " + e);
+        if (rs.next()) {
+            account = new Account(
+                rs.getInt("accID"),
+                rs.getString("username"),
+                rs.getString("password"),
+                rs.getString("email"),
+                rs.getString("role"),
+                rs.getString("authority"),
+                rs.getDate("regisDate").toLocalDate(),
+                rs.getInt("customerID"),
+                rs.getInt("employeeID")
+            );
         }
-
-        return account;
+    } catch (SQLException e) {
+        System.out.println("Lỗi khi lấy tài khoản: " + e);
     }
+
+    return account;
+}
+
 
     public static void savePasswordResetToken(String email, String token, java.util.Date expiryDate) throws SQLException {
         Connection con = getConnect();
@@ -309,6 +310,6 @@ public class AccountRep implements DatabaseInfo {
     }
 
     public static void main(String[] args) throws SQLException {
-        System.out.println(getAccountByEmail("jane@example.com").toString());
+        System.out.println(getAccountByEmail("nguyenthanhloc20092004@gmail.com").toString());
     }
 }

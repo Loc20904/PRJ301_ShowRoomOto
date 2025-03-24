@@ -36,7 +36,6 @@ public class f_booking implements Filter {
     private void doBeforeProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         String sstartDate = request.getParameter("startDate");
-        String ssendDate = request.getParameter("endDate");
         String employeeID = request.getParameter("employeeID");
         String slot = request.getParameter("slot");
         
@@ -53,23 +52,18 @@ public class f_booking implements Filter {
         }
         
         // Kiểm tra null
-        if (sstartDate == null || ssendDate == null) {
-            request.setAttribute("erormess", "Ngày bắt đầu hoặc ngày kết thúc không được để trống.");
+        if (sstartDate == null) {
+            request.setAttribute("erormess", "Ngày bắt đầu không được để trống.");
             return;
         }
 
         try {
             LocalDate today = LocalDate.now();
             LocalDate startDate = LocalDate.parse(sstartDate);
-            LocalDate endDate = LocalDate.parse(ssendDate);
 
             // Kiểm tra điều kiện
             if (startDate.isBefore(today)) {
                 request.setAttribute("erormess", "Ngày bắt đầu không thể nhỏ hơn hôm nay.");
-                return;
-            }
-            if (endDate.isBefore(startDate)) {
-                request.setAttribute("erormess", "Ngày kết thúc không thể nhỏ hơn ngày bắt đầu.");
                 return;
             }
 

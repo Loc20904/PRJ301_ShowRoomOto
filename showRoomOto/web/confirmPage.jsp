@@ -32,12 +32,11 @@
                         <ul class="list-group">
                             <li class="list-group-item"><strong>Car Name:</strong> ${booking.car.carName}</li>
                             <li class="list-group-item"><strong>Start Date:</strong> ${booking.startDate}</li>
-                            <li class="list-group-item"><strong>End Date:</strong> ${booking.endDate}</li>
                             <li class="list-group-item"><strong>Employee:</strong> ${booking.employee.fullName}</li>
-                                <c:if test="${booking.slot}==1">
+                                <c:if test="${booking.slot==1}">
                                 <li class="list-group-item"><strong>Time:7h-12h</strong> </li>
                                 </c:if>
-                                <c:if test="${booking.slot}==2">
+                                <c:if test="${booking.slot==2}">
                                 <li class="list-group-item"><strong>Time:14h-22h</strong> </li>
                                 </c:if>
                         </ul>

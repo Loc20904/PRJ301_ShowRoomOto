@@ -139,12 +139,6 @@
                         <label for="startDate" class="form-label fw-bold">Start Date</label>
                         <input type="date" class="form-control" id="startDate" name="startDate" required>
                     </div>
-
-                    <div class="mb-3">
-                        <label for="endDate" class="form-label fw-bold">End Date</label>
-                        <input type="date" class="form-control" id="endDate" name="endDate" required>
-                    </div>
-
                     <!-- Chọn Slot -->
                     <div class="mb-3">
                         <label for="slot" class="form-label fw-bold">Select Slot</label>

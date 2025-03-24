@@ -77,14 +77,12 @@ public class s_booking extends HttpServlet {
             return;
         }
         String startDate = request.getParameter("startDate");
-        String endDate = request.getParameter("endDate");
         String slot = request.getParameter("slot");
         String employeeID = request.getParameter("employeeID");
 
         // Tạo URL để chuyển hướng sau khi đăng nhập
         String redirectUrl = request.getRequestURI() + "?carID=" + carID +
                              "&startDate=" + startDate +
-                             "&endDate=" + endDate +
                              "&slot=" + slot +
                              "&employeeID=" + employeeID;
 
@@ -100,7 +98,6 @@ public class s_booking extends HttpServlet {
 
         // Lấy dữ liệu từ form
         String startDate = request.getParameter("startDate");
-        String endDate = request.getParameter("endDate");
         int carID = Integer.parseInt(request.getParameter("carID"));
         int slot = Integer.parseInt(request.getParameter("slot"));
         int employeeID = Integer.parseInt(request.getParameter("employeeID")); // Lấy employeeID
@@ -113,7 +110,7 @@ public class s_booking extends HttpServlet {
         Booking booking = new Booking();
         booking.setCustomer(customer);
         booking.setStartDate(LocalDate.parse(startDate));
-        booking.setEndDate(LocalDate.parse(endDate));
+        booking.setEndDate(LocalDate.parse(startDate).plusDays(1));
         booking.setCar(CarRep.getCarByID(carID));
         booking.setSlot(slot);
         booking.setEmployee(EmployeeRep.getEmployeeById(employeeID));
