@@ -1,14 +1,14 @@
 <%@page import="model.Account"%>
-<%@page import="model.AccountDB"%>
+<%@page import="repository.AccountRep"%>
 <%@page import="model.Booking"%>
-<%@page import="java.util.*, model.Car, dal.CarDB" %>
+<%@page import="java.util.*, model.Car, repository.CarRep" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     // Lấy carID từ request
     String AccID = request.getParameter("accID");
     int AccIDDB = (AccID != null) ? Integer.parseInt(AccID) : 0;
 
-    AccountDB dB = new AccountDB();
+    AccountRep dB = new AccountRep();
     Account account = dB.getAccountById(AccIDDB);
 
     if (account == null) {
@@ -346,7 +346,7 @@
                     <div class="container mt-5">
                         <h2 class="text-center">Edit Account</h2>
                         <form action="EditAccountServlet" method="POST">
-                            <input type="hidden" name="accID" value="<%= account.getAccID()%>">
+                            <input type="hidden" name="accID" value="<%= account.getAccId()%>">
                             <input type="hidden" name="regisDate" 
                                        value="<%= account.getRegisDate()%>">
 

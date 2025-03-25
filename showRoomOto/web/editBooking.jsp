@@ -1,19 +1,21 @@
-<%@page import="model.BookingDetailDB"%>
+<%@page import="model.Account"%>
+<%@page import="repository.AccountRep"%>
 <%@page import="model.Booking"%>
+<%@page import="java.util.*, model.Car, repository.CarRep" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     // Lấy carID từ request
-    String bookingDetalIDParam = request.getParameter("bookingDetalID");
-    int bookingDetalID = (bookingDetalIDParam != null) ? Integer.parseInt(bookingDetalIDParam) : 0;
+    String AccID = request.getParameter("accID");
+    int AccIDDB = (AccID != null) ? Integer.parseInt(AccID) : 0;
 
-    BookingDetailDB carDB = new BookingDetailDB();
-    Booking booking = carDB.getBookingById(bookingDetalID);
+    AccountRep dB = new AccountRep();
+    Account account = dB.getAccountById(AccIDDB);
 
-    if (booking == null) {
+    if (account == null) {
 %>
 <script>
-    alert("booking not found!");
-    window.location.href = "bookingTable.jsp"; // Quay lại bảng xe nếu không tìm thấy xe
+    alert("account not found!");
+    window.location.href = "accountTable.jsp";
 </script>
 <%
         return;
@@ -111,7 +113,7 @@
                             <a class="collapse-item" href="customerTable.jsp">Customers Manager</a>
                             <a class="collapse-item" href="employeeTable.jsp">Employees Manager</a>
                             <a class="collapse-item" href="bookingTable.jsp">Booking Manager</a>
-                            <a class="collapse-item" href="accountTable.jsp">Account Manager</a>
+                            <a class="collapse-item" href="#">Account Manager</a>
                         </div>
                     </div>
                 </li>
@@ -342,58 +344,83 @@
 
 
                     <div class="container mt-5">
-                        <h2 class="text-center">Edit Booking</h2>
-                        <form action="EditBookingServlet" method="POST">
-                            <input type="hidden" name="bookingDetailID" value="<%= booking.getBookingDetailID() %>">
+                        <h2 class="text-center">Edit Account</h2>
+                        <form action="EditAccountServlet" method="POST">
+                            <input type="hidden" name="accID" value="<%= account.getAccId()%>">
+                            <input type="hidden" name="regisDate" 
+                                       value="<%= account.getRegisDate()%>">
 
+                            <!-- Username -->
                             <div class="mb-3">
-                                <label class="form-label">Booking ID</label>
-                                <input type="number" class="form-control" name="bookingID" value="<%= booking.getBookingID()%>" required>
+                                <label class="form-label">Username</label>
+                                <input type="text" class="form-control" name="username" value="<%= account.getUsername()%>" required>
                             </div>
 
+                            <!-- Email -->
                             <div class="mb-3">
-                                <label class="form-label">Car ID</label>
-                                <input type="number" class="form-control" name="carID" value="<%= booking.getCarID()%>" required>
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" name="email" value="<%= account.getEmail()%>" required>
                             </div>
-
                             <div class="mb-3">
-                                <label class="form-label">Customer ID</label>
-                                <input type="number" class="form-control" name="custID" value="<%= booking.getCustID()%>" required>
+                                <label for="password">Password</label>
+                                <input type="password" class="form-control" name="password" value="<%= account.getPassword() %>" required>
                             </div>
+                            <!-- Kiểm tra quyền Admin -->
+                            <%
+                                String currentUserRole = (String) session.getAttribute("userRole"); // Lấy role của user đang đăng nhập
+                                boolean isAdmin = currentUserRole != null && currentUserRole.equals("admin");
+                            %>
 
+                            <!-- Role (Chỉ Admin có thể chỉnh sửa) -->
+                            <% if (!"customer".equals(account.getRole())) {%>
                             <div class="mb-3">
-                                <label class="form-label">Employee ID</label>
-                                <input type="number" class="form-control" name="employeeID" value="<%= booking.getEmployeeID()%>" required>
+                                <label class="form-label">Role</label>
+                                <select class="form-control" name="role" <%= isAdmin ? "" : "disabled"%>>
+                                    <option value="employee" <%= "employee".equals(account.getRole()) ? "selected" : ""%>>Employee</option>
+                                    <option value="deputy_admin" <%= "deputy_admin".equals(account.getRole()) ? "selected" : ""%>>Deputy Admin</option>
+                                </select>
                             </div>
+                            <% }%>
 
+                            <!-- Authority -->
                             <div class="mb-3">
-                                <label class="form-label">Start Date</label>
-                                <input type="date" class="form-control" name="startDate" value="<%= booking.getStartDate()%>" required>
+                                <label class="form-label">Authority</label>
+                                <select class="form-control" name="authority">
+                                    <option value="basic" <%= "basic".equals(account.getAuthority()) ? "selected" : ""%>>Basic</option>
+                                    <option value="premium" <%= "premium".equals(account.getAuthority()) ? "selected" : ""%>>Premium</option>
+                                    <option value="manager" <%= "manager".equals(account.getAuthority()) ? "selected" : ""%>>Manager</option>
+                                    <option value="technician" <%= "technician".equals(account.getAuthority()) ? "selected" : ""%>>Technician</option>
+                                </select>
                             </div>
-
+                            <!-- Employee ID (Chỉ dành cho Employee và Deputy Admin) -->
+                            <% if ("customer".equals(account.getRole())) {%>
+                            <!-- Hiển thị Customer ID khi role là customer -->
                             <div class="mb-3">
-                                <label class="form-label">End Date</label>
-                                <input type="date" class="form-control" name="endDate" value="<%= booking.getEndDate()%>" required>
+                                <label class="form-label">Customer ID (if applicable)</label>
+                                <input type="number" class="form-control" name="customerID" value="<%= account.getCustomerID() != 0 ? account.getCustomerID() : ""%>">
                             </div>
-
+                            <!-- Ẩn Employee ID khi role là customer -->
+                            <input type="hidden" name="employeeID" value="">
+                            <% } else {%>
+                            <!-- Hiển thị Employee ID khi role là employee hoặc deputy_admin -->
                             <div class="mb-3">
-                                <label class="form-label">Slot</label>
-                                <input type="number" class="form-control" name="slot" value="<%= booking.getSlot()%>" required>
+                                <label class="form-label">Employee ID (if applicable)</label>
+                                <input type="number" class="form-control" name="employeeID" value="<%= account.getEmployeeID() != 0 ? account.getEmployeeID() : ""%>">
                             </div>
+                            <!-- Ẩn Customer ID khi role là employee -->
+                            <input type="hidden" name="customerID" value="">
+                            <% }%>
 
-                            <button type="submit" class="btn btn-primary">Update Booking</button>
-                            <a href="bookingTable.jsp" class="btn btn-secondary">Cancel</a>
+
+                            <!-- Buttons -->
+                            <button type="submit" class="btn btn-primary">Update Account</button>
+                            <a href="accountTable.jsp" class="btn btn-secondary">Cancel</a>
                         </form>
                     </div>
 
                     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-
-
-
-
-
-
+                    <!<!--  <%= isAdmin ? "" : "disabled"%> -->
 
                 </div>
                 <!-- End of Main Content -->

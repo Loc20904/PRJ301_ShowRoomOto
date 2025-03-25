@@ -1,8 +1,9 @@
-<%@page import="model.BookingDetailDB"%>
+<%@page import="repository.BookingDetailDB"%>
 <%@page import="model.Booking"%>
 <%@page import="model.Employee"%>
 <%@page import="model.Customer"%>
 <%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
 <%@page import="model.Car"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -54,9 +55,9 @@
             <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
                 <!-- Sidebar - Brand -->
-                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="s_Car">
                     <div class="sidebar-brand-icon">
-                        <img src="img/logo.png" alt="alt"/>
+                        <img src="https://www.lamborghini.com/sites/it-en/files/DAM/lamborghini/logos/2024/03_26/logo_header_01.svg" alt="alt"/>
                     </div>
                     <div class="sidebar-brand-text mx-3">ALL IS CAR</div>
                 </a>
@@ -409,16 +410,16 @@
                                         <tbody>
                                             <%
                                                 BookingDetailDB bdb = new BookingDetailDB();
-                                                ArrayList<Booking> list = bdb.listAllBookings();
+                                                List<Booking> list = bdb.listAllBookings();
 
                                                 if (list != null && !list.isEmpty()) {
                                                     for (Booking b : list) {
                                             %>
                                             <tr>
                                                 <td><%= b.getBookingID()%></td>
-                                                <td><%= b.getCarID()%></td>
-                                                <td><%= b.getCustID()%></td>
-                                                <td><%= b.getEmployeeID()%></td>
+                                                <td><%= b.getCar().getCarID()%></td>
+                                                <td><%= b.getCustomer().getCustomerId()%></td>
+                                                <td><%= b.getEmployee().getEmployeeId()%></td>
                                                 <td><%= b.getStartDate()%></td>
                                                 <td><%= b.getEndDate()%></td>
                                                 <td><%= b.getSlot()%></td>

@@ -134,6 +134,35 @@ public class AccountRep implements DatabaseInfo {
     return account;
 }
 
+    public Account getAccountById(int accID) {
+    Account account = null;
+
+    try (Connection conn = getConnect()) {
+        if (conn == null) {
+            return null;
+        }
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Account WHERE accID = ?");
+        stmt.setInt(1, accID);
+        ResultSet rs = stmt.executeQuery();
+
+        if (rs.next()) {
+            account = new Account(
+                rs.getInt("accID"),
+                rs.getString("username"),
+                rs.getString("password"),
+                rs.getString("email"),
+                rs.getString("role"),
+                rs.getString("authority"),
+                rs.getDate("regisDate"),
+                    (Integer)rs.getInt("customerID"),
+                (Integer)rs.getInt("employeeID")
+            );
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return account;
+}
 
     public static void savePasswordResetToken(String email, String token, java.util.Date expiryDate) throws SQLException {
         Connection con = getConnect();
@@ -229,11 +258,11 @@ public class AccountRep implements DatabaseInfo {
                         rs.getString("role"),
                         rs.getString("authority"),
                         LocalDate.parse(rs.getString("regisDate")),
-                        rs.getObject("customerID", Integer.class),
-                        rs.getObject("employeeID", Integer.class)
+                             (Integer)rs.getInt("customerID"),
+                (Integer)rs.getInt("employeeID")
                 ));
             }
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             System.out.println(ex);
         }
         return list;
@@ -310,6 +339,10 @@ public class AccountRep implements DatabaseInfo {
     }
 
     public static void main(String[] args) throws SQLException {
-        System.out.println(getAccountByEmail("nguyenthanhloc20092004@gmail.com").toString());
+        AccountRep ac=new AccountRep();
+        for(Account a:ac.listAll())
+        {
+            System.out.println(a);
+        }
     }
 }

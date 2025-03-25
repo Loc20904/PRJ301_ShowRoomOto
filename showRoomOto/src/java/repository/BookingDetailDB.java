@@ -31,7 +31,7 @@ public class BookingDetailDB implements DatabaseInfo {
 public static List<Booking> listAllBookings() {
     List<Booking> bookings = new ArrayList<>();
     String sql = "SELECT b.BookingID, c.customerID, c.FullName AS CustomerName, b.BookingDate, b.Status, " +
-                 "bd.StartDate, bd.EndDate, bd.Slot, car.CarID, car.carName, " +
+                 "bd.BookingDetailID, bd.StartDate, bd.EndDate, bd.Slot, car.CarID, car.carName, " +
                  "e.EmployeeID, e.FullName AS EmployeeName " +
                  "FROM Booking b " +
                  "JOIN BookingDetail bd ON b.BookingID = bd.BookingID " +
@@ -57,6 +57,7 @@ public static List<Booking> listAllBookings() {
             employee.setFullName(rs.getString("EmployeeName"));
 
             Booking booking = new Booking();
+            booking.setBookingDetailID(rs.getInt("BookingDetailID"));
             booking.setBookingID(rs.getInt("BookingID"));
             booking.setCustomer(customer);
             booking.setBookingDate(rs.getDate("BookingDate").toLocalDate());

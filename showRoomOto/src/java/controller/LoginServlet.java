@@ -17,50 +17,92 @@ import repository.AccountRep;
 @WebServlet(name = "LoginServlet", urlPatterns = {"/login"})
 public class LoginServlet extends HttpServlet {
 
+    private static final Logger LOGGER = Logger.getLogger(LoginServlet.class.getName());
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String code = request.getParameter("code");
-        if (code != null) {
-            GoogleLogin gg = new GoogleLogin();
-            String accessToken = gg.getToken(code);
+        String state = request.getParameter("state");
 
-            if (accessToken != null) {
-                System.out.println("Access Token: " + accessToken);
-
-                // Lấy thông tin người dùng
-                JsonObject userInfo = gg.getUserInfo(accessToken);
-                System.out.println("User Info: " + userInfo);
-
-                // Ví dụ: Lấy email và tên
-                String email = userInfo.get("email").getAsString();
-                String name = userInfo.get("name").getAsString();
-                Account acc=new Account(name, email);
-                // Đăng nhập thành công, chuyển hướng về trang chính
-                request.getSession().setAttribute("user", acc);
-                
-                if(!AccountRep.isUsernameExists(email))
-                {
-                    response.sendRedirect("registerGoogle.jsp");
-                    return;
-                }
-                else{
-                    acc=AccountRep.getAccountByEmail(email);
-                    request.getSession().setAttribute("user", acc);
-                }
-                String redirectUrl = (String) request.getSession().getAttribute("redirectUrl");
-            if (redirectUrl != null) {
-                request.getSession().removeAttribute("redirectUrl"); // Xóa URL sau khi sử dụng
-                response.sendRedirect(redirectUrl); // Chuyển hướng đến trang đặt xe
-            } else {
-                response.sendRedirect("index.jsp"); // Chuyển hướng đến trang chính nếu không có URL
-            }
-
-            } else {
-                response.getWriter().println("Failed to get access token.");
-            }
-        } else {
+        if (code == null) {
             response.getWriter().println("No code found in the request.");
+            return;
+        }
+
+        try {
+            if (state == null || "google".equals(state)) {
+                handleGoogleLogin(request, response, code);
+            } else if ("facebook".equals(state)) {
+                handleFacebookLogin(request, response, code);
+            } else {
+                response.getWriter().println("Unknown login provider.");
+            }
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error in social login", e);
+            response.getWriter().println("Error during social login: " + e.getMessage());
+        }
+    }
+
+    private void handleGoogleLogin(HttpServletRequest request, HttpServletResponse response, String code)
+            throws IOException {
+        GoogleLogin gg = new GoogleLogin();
+        String accessToken = gg.getToken(code);
+
+        if (accessToken == null) {
+            response.getWriter().println("Failed to get Google access token.");
+            return;
+        }
+
+        JsonObject userInfo = gg.getUserInfo(accessToken);
+        if (userInfo == null) {
+            response.getWriter().println("Failed to get Google user info.");
+            return;
+        }
+
+        String email = userInfo.get("email").getAsString();
+        String name = userInfo.get("name").getAsString();
+        processSocialLogin(request, response, email, name);
+    }
+
+    private void handleFacebookLogin(HttpServletRequest request, HttpServletResponse response, String code)
+            throws IOException {
+        FacebookLogin fb = new FacebookLogin();
+        String accessToken = fb.getToken(code);
+
+        if (accessToken == null) {
+            response.getWriter().println("Failed to get Facebook access token.");
+            return;
+        }
+
+        JsonObject userInfo = fb.getUserInfo(accessToken);
+        if (userInfo == null) {
+            response.getWriter().println("Failed to get Facebook user info.");
+            return;
+        }
+
+        String email = userInfo.has("email") ? 
+            userInfo.get("email").getAsString() : 
+            "no-email@" + userInfo.get("id").getAsString() + ".com";
+        String name = userInfo.get("name").getAsString();
+        processSocialLogin(request, response, email, name);
+    }
+
+    private void processSocialLogin(HttpServletRequest request, HttpServletResponse response, String email, String name)
+            throws IOException {
+        Account acc = new Account(name, email);
+        
+        if (!AccountRep.isUsernameExists(email)) {
+            request.getSession().setAttribute("user", acc);
+            response.sendRedirect("registerGoogle.jsp");
+        } else {
+            acc = AccountRep.getAccountByEmail(email);
+            if (acc != null) {
+                request.getSession().setAttribute("user", acc);
+                redirectUser(request, response);
+            } else {
+                response.getWriter().println("Error retrieving account information.");
+            }
         }
     }
 
@@ -69,43 +111,64 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        String rememberMe = request.getParameter("remember_me"); // Nếu không check thì sẽ là null
-        Account acc;
+        String rememberMe = request.getParameter("remember_me");
+
         try {
-            acc = AccountRep.checkLogin(email, password);
+            Account acc = AccountRep.checkLogin(email, password);
             if (acc != null) {
-                // Nếu chọn "Remember Me", lưu email vào cookie
-                if ("on".equals(rememberMe)) {
-                    Cookie emailCookie = new Cookie("userEmail", email);
-                    emailCookie.setMaxAge(7 * 24 * 60 * 60); // Lưu trong 7 ngày
-                    Cookie passCookie = new Cookie("pw", password);
-                    passCookie.setMaxAge(7 * 24 * 60 * 60); // Lưu trong 7 ngày
-                    response.addCookie(emailCookie);
-                }
-
-                // Lưu user vào session
+                handleRememberMe(request, response, email, password, rememberMe);
                 request.getSession().setAttribute("user", acc);
-
-                String redirectUrl = (String) request.getSession().getAttribute("redirectUrl");
-            if (redirectUrl != null) {
-                request.getSession().removeAttribute("redirectUrl"); // Xóa URL sau khi sử dụng
-                response.sendRedirect(redirectUrl); // Chuyển hướng đến trang đặt xe
+                redirectUser(request, response);
             } else {
-                response.sendRedirect("index.jsp"); // Chuyển hướng đến trang chính nếu không có URL
-            }
-            } else {
-                // Nếu sai thông tin, quay lại trang login với thông báo lỗi
                 request.setAttribute("errorMessage", "Invalid email or password!");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, "Database error during login", ex);
+            request.setAttribute("errorMessage", "Database error: " + ex.getMessage());
+            request.getRequestDispatcher("login.jsp").forward(request, response);
         }
     }
 
+    private void handleRememberMe(HttpServletRequest request, HttpServletResponse response, 
+            String email, String password, String rememberMe) {
+        if ("on".equals(rememberMe)) {
+            Cookie emailCookie = new Cookie("userEmail", email);
+            emailCookie.setMaxAge(7 * 24 * 60 * 60);
+            emailCookie.setPath("/");
+            Cookie passCookie = new Cookie("pw", password);
+            passCookie.setMaxAge(7 * 24 * 60 * 60);
+            passCookie.setPath("/");
+            response.addCookie(emailCookie);
+            response.addCookie(passCookie);
+            LOGGER.info("Remember Me selected - Cookies set: userEmail=" + email);
+        } else {
+            Cookie emailCookie = new Cookie("userEmail", "");
+            emailCookie.setMaxAge(0);
+            emailCookie.setPath("/");
+            Cookie passCookie = new Cookie("pw", "");
+            passCookie.setMaxAge(0);
+            passCookie.setPath("/");
+            response.addCookie(emailCookie);
+            response.addCookie(passCookie);
+            LOGGER.info("Remember Me not selected - Cookies cleared");
+        }
+    }
+
+    private void redirectUser(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
+        String redirectUrl = (String) request.getSession().getAttribute("redirectUrl");
+        if (redirectUrl != null) {
+            request.getSession().removeAttribute("redirectUrl");
+            response.sendRedirect(redirectUrl);
+        } else {
+            response.sendRedirect("index.jsp");
+        }
+    }
+
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
     }
 }

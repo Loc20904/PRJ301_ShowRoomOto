@@ -9,6 +9,7 @@ package model;
 import java.time.LocalDate;
 
 public class Booking {
+    private int bookingDetailID;
     private int bookingID;
     private Customer customer;
     private LocalDate bookingDate;
@@ -35,6 +36,29 @@ public class Booking {
         this.slot = slot;
     }
 
+    public Booking(int bookingDetailID, int bookingID, Customer customer, LocalDate bookingDate, String status, Car car, Employee employee, LocalDate startDate, LocalDate endDate, int slot) {
+        this.bookingDetailID = bookingDetailID;
+        this.bookingID = bookingID;
+        this.customer = customer;
+        this.bookingDate = bookingDate;
+        this.status = status;
+        this.car = car;
+        this.employee = employee;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.slot = slot;
+    }
+
+    public int getBookingDetailID() {
+        return bookingDetailID;
+    }
+
+    public void setBookingDetailID(int bookingDetailID) {
+        this.bookingDetailID = bookingDetailID;
+    }
+
+    
+    
     // Getters and Setters
     public int getBookingID() {
         return bookingID;

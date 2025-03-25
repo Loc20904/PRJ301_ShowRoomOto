@@ -175,28 +175,63 @@ public class bookingRep implements DatabaseInfo{
     }
 }
    public static void cancelBooking(int bookingId) {
-        String sql = "UPDATE Booking SET status = 'canceled', EndDate = CAST(GETDATE() AS DATE) WHERE BookingID = ?";
-        try (Connection conn = getConnect();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, bookingId);
-            stmt.executeUpdate();
+    String sqlBooking = "UPDATE Booking SET status = 'canceled'WHERE BookingID = ?";
+    String sqlBookingDetail = "UPDATE BookingDetail SET EndDate = CAST(GETDATE() AS DATE) WHERE BookingID = ?";
+
+    try (Connection conn = getConnect()) {
+        conn.setAutoCommit(false); // Bắt đầu transaction
+
+        try (PreparedStatement stmtBooking = conn.prepareStatement(sqlBooking);
+             PreparedStatement stmtBookingDetail = conn.prepareStatement(sqlBookingDetail)) {
+
+            stmtBooking.setInt(1, bookingId);
+            stmtBooking.executeUpdate();
+
+            stmtBookingDetail.setInt(1, bookingId);
+            stmtBookingDetail.executeUpdate();
+
+            conn.commit(); // Xác nhận thay đổi
         } catch (SQLException e) {
+            conn.rollback(); // Hoàn tác nếu có lỗi
             e.printStackTrace();
+        } finally {
+            conn.setAutoCommit(true);
         }
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
+}
+
    public boolean updateBookingStatus(int bookingId) {
-    String query = "UPDATE Booking SET status = 'complete', EndDate = CAST(GETDATE() AS DATE) WHERE bookingID = ?";
+    String sqlBooking = "UPDATE Booking SET status = 'complete' WHERE BookingID = ?";
+    String sqlBookingDetail = "UPDATE BookingDetail SET EndDate = CAST(GETDATE() AS DATE) WHERE BookingID = ?";
 
-    try (Connection conn = getConnect();
-         PreparedStatement ps = conn.prepareStatement(query)) {
-        ps.setInt(1, bookingId);
+    try (Connection conn = getConnect()) {
+        conn.setAutoCommit(false); // Bắt đầu transaction
 
-        return ps.executeUpdate() > 0; // Trả về true nếu có ít nhất 1 dòng bị ảnh hưởng
+        try (PreparedStatement stmtBooking = conn.prepareStatement(sqlBooking);
+             PreparedStatement stmtBookingDetail = conn.prepareStatement(sqlBookingDetail)) {
+
+            stmtBooking.setInt(1, bookingId);
+            int rowsBooking = stmtBooking.executeUpdate();
+
+            stmtBookingDetail.setInt(1, bookingId);
+            int rowsBookingDetail = stmtBookingDetail.executeUpdate();
+
+            conn.commit(); // Xác nhận thay đổi
+            return rowsBooking > 0 && rowsBookingDetail > 0; // Trả về true nếu cả hai bảng cập nhật thành công
+        } catch (SQLException e) {
+            conn.rollback(); // Hoàn tác nếu có lỗi
+            e.printStackTrace();
+        } finally {
+            conn.setAutoCommit(true);
+        }
     } catch (SQLException e) {
         e.printStackTrace();
     }
     return false;
 }
+
     public static void main(String[] args) {
         for(Booking b:getBookingsByCustomer(1))
         {

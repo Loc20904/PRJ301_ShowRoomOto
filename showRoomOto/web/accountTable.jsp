@@ -1,8 +1,8 @@
 <%@page import="model.Account"%>
-<%@page import="model.AccountDB"%>
+<%@page import="repository.AccountRep"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="model.Car"%>
-<%@page import="dal.CarDB"%>
+<%@page import="repository.CarRep"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -53,9 +53,9 @@
             <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
                 <!-- Sidebar - Brand -->
-                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="s_Car">
                     <div class="sidebar-brand-icon">
-                        <img src="img/logo.png" alt="alt"/>
+                        <img src="https://www.lamborghini.com/sites/it-en/files/DAM/lamborghini/logos/2024/03_26/logo_header_01.svg" alt="alt"/>
                     </div>
                     <div class="sidebar-brand-text mx-3">ALL IS CAR</div>
                 </a>
@@ -463,7 +463,7 @@
                                         </thead>
                                         <tbody>
                                             <%
-                                                AccountDB accountDB = new AccountDB();
+                                                AccountRep accountDB = new AccountRep();
                                                 ArrayList<Account> list = accountDB.listAll();
 
                                                 if (list != null && !list.isEmpty()) {
@@ -471,16 +471,16 @@
                                                         if (acc.getRole().equals("user")) {
                                             %>
                                             <tr>
-                                                <td><%= acc.getAccID()%></td>
+                                                <td><%= acc.getAccId()%></td>
                                                 <td><%= acc.getUsername()%></td>
                                                 <td><%= acc.getEmail()%></td>
                                                 <td><%= acc.getRole()%></td>
                                                 <td><%= acc.getAuthority() != null ? acc.getAuthority() : "N/A"%></td>
                                                 <td><%= acc.getRegisDate()%></td>
                                                 <td><%= acc.getCustomerID() != 0 ? acc.getCustomerID() : "N/A"%></td>
-                                                <td><a href="editAccount.jsp?accID=<%= acc.getAccID()%>">Edit</a></td>
+                                                <td><a href="editAccount.jsp?accID=<%= acc.getAccId()%>">Edit</a></td>
                                                 <td>
-                                                    <a href="DeleteAccountServlet?accID=<%= acc.getAccID()%>" 
+                                                    <a href="DeleteAccountServlet?accID=<%= acc.getAccId()%>" 
                                                        onclick="return confirm('Are you sure you want to delete this account?');">
                                                         Delete
                                                     </a>
@@ -542,16 +542,16 @@
                                                         if (acc.getRole().equals("employee") || acc.getRole().equals("deputy_admin")) { // Ch? hi?n th? Employee
 %>
                                             <tr>
-                                                <td><%= acc.getAccID()%></td>
+                                                <td><%= acc.getAccId()%></td>
                                                 <td><%= acc.getUsername()%></td>
                                                 <td><%= acc.getEmail()%></td>
                                                 <td><%= acc.getRole()%></td>
                                                 <td><%= acc.getAuthority() != null ? acc.getAuthority() : "N/A"%></td>
                                                 <td><%= acc.getRegisDate()%></td>
                                                 <td><%= acc.getEmployeeID() != 0 ? acc.getEmployeeID() : "N/A"%></td>
-                                                <td><a href="editAccount.jsp?accID=<%= acc.getAccID()%>">Edit</a></td>
+                                                <td><a href="editAccount.jsp?accID=<%= acc.getAccId()%>">Edit</a></td>
                                                 <td>
-                                                    <a href="DeleteAccountServlet?accID=<%= acc.getAccID()%>" 
+                                                    <a href="DeleteAccountServlet?accID=<%= acc.getAccId()%>" 
                                                        onclick="return confirm('Are you sure you want to delete this account?');">
                                                         Delete
                                                     </a>

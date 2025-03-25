@@ -18,7 +18,32 @@ public class Account {
     private LocalDate regisDate;
     private int customerId;
     private int employeeId;
+    private Integer customerID;
+    private Integer employeeID;
 
+        public Account(int accId, String username, String password, String email, String role, String authority, java.sql.Date regisDate, Integer customerID, Integer employeeID) {
+        this.accId = accId;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.role = role;
+        this.authority = authority;
+        this.regisDate = regisDate.toLocalDate();
+        this.customerID = customerID;
+        this.employeeID = employeeID;
+    }
+
+    public Account(int accId, String username, String password, String email, String role, String authority, LocalDate regisDate, Integer customerID, Integer employeeID) {
+        this.accId = accId;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.role = role;
+        this.authority = authority;
+        this.regisDate = regisDate;
+        this.customerID = customerID;
+        this.employeeID = employeeID;
+    }
     // Default constructor
     public Account() {
     }
@@ -52,8 +77,22 @@ public class Account {
         this.employeeId = employeeId;
     }
 
-    
-    
+    public Integer getCustomerID() {
+        return customerID;
+    }
+
+    public void setCustomerID(Integer customerID) {
+        this.customerID = customerID;
+    }
+
+    public Integer getEmployeeID() {
+        return employeeID;
+    }
+
+    public void setEmployeeID(Integer employeeID) {
+        this.employeeID = employeeID;
+    }
+
     // Getters and Setters
     public int getAccId() {
         return accId;

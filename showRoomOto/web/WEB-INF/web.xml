@@ -16,6 +16,10 @@
         <filter-name>f_booking</filter-name>
         <servlet-name>s_booking</servlet-name>
     </filter-mapping>
+    <servlet>
+        <servlet-name>FacebookLogin</servlet-name>
+        <servlet-class>java.controller.FacebookLogin</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>s_customer</servlet-name>
         <url-pattern>/s_customer</url-pattern>
@@ -111,6 +115,10 @@
     <servlet-mapping>
         <servlet-name>ConfirmServlet</servlet-name>
         <url-pattern>/ConfirmServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FacebookLogin</servlet-name>
+        <url-pattern>/FacebookLogin</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>s_Car</welcome-file>
