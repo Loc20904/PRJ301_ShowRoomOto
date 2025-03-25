@@ -31,7 +31,7 @@ public class AccountRep implements DatabaseInfo {
 
     public static Account checkLogin(String email, String password) throws SQLException {
         System.out.println("Checking login for email: " + email + ", password: " + password);
-        String sql = "SELECT * FROM Account WHERE email = ?";
+        String sql = "SELECT * FROM Account WHERE email = ? and is_verified=1";
         Connection con = getConnect();
         if (con == null) {
             System.err.println("Cannot connect to database");

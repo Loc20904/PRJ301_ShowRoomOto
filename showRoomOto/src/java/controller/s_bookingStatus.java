@@ -78,7 +78,7 @@ public class s_bookingStatus extends HttpServlet {
         String bookingId = request.getParameter("bookingId");
         
         if (bookingId != null) {
-            bookingRep.cancelBooking(Integer.parseInt(bookingId));
+            bookingRep.completeBooking(Integer.parseInt(bookingId));
         }    
         response.sendRedirect("s_employee");
     }

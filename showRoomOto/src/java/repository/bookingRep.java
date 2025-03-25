@@ -202,7 +202,7 @@ public class bookingRep implements DatabaseInfo{
     }
 }
 
-   public boolean updateBookingStatus(int bookingId) {
+   public static boolean completeBooking(int bookingId) {
     String sqlBooking = "UPDATE Booking SET status = 'complete' WHERE BookingID = ?";
     String sqlBookingDetail = "UPDATE BookingDetail SET EndDate = CAST(GETDATE() AS DATE) WHERE BookingID = ?";
 

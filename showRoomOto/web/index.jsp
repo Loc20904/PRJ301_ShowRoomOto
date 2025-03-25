@@ -16,6 +16,7 @@
         <link rel="stylesheet" href="css/CSS_index.css"/>
         <link rel="stylesheet" href="css/CSS_header.css"/>
         <link rel="stylesheet" href="css/CSS_chatbox.css">
+        <link rel="stylesheet" href="css/CSS_footer.css"/>
     </head>
     <body>
         <%@include file="includes/headerMainPage.jsp" %>
@@ -105,6 +106,7 @@
                 </div>
             </div>
         </section>
+                                    <%@include file="includes/footer.jsp" %>
         <script src="js/JS_chatBox.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>

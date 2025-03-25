@@ -120,7 +120,7 @@ public class LoginServlet extends HttpServlet {
                 request.getSession().setAttribute("user", acc);
                 redirectUser(request, response);
             } else {
-                request.setAttribute("errorMessage", "Invalid email or password!");
+                request.setAttribute("errorMessage", "Please check email, password or verify your account to login!");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             }
         } catch (SQLException ex) {
