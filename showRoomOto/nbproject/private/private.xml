@@ -3,12 +3,26 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/phuc2/OneDrive/Máy%20tính/PRJ301/PRJ301_ShowRoomOto/showRoomOto/src/java/repository/EmployeeRep.java</file>
-            <file>file:/C:/Users/phuc2/OneDrive/Máy%20tính/PRJ301/PRJ301_ShowRoomOto/showRoomOto/web/carDetailPage.jsp</file>
-            <file>file:/C:/Users/phuc2/OneDrive/Máy%20tính/PRJ301/PRJ301_ShowRoomOto/showRoomOto/src/java/repository/bookingRep.java</file>
-            <file>file:/C:/Users/phuc2/OneDrive/Máy%20tính/PRJ301/PRJ301_ShowRoomOto/showRoomOto/src/java/model/Customer.java</file>
-            <file>file:/C:/Users/phuc2/OneDrive/Máy%20tính/PRJ301/PRJ301_ShowRoomOto/showRoomOto/src/java/model/Booking.java</file>
-            <file>file:/C:/Users/phuc2/OneDrive/Máy%20tính/PRJ301/PRJ301_ShowRoomOto/showRoomOto/web/confirmPage.jsp</file>
+            <file>file:/D:/WEB%20PRJ301/PRJ301_ShowRoomOto/PRJ301_ShowRoomOto/showRoomOto/web/registerGoogle.jsp</file>
+            <file>file:/D:/WEB%20PRJ301/PRJ301_ShowRoomOto/PRJ301_ShowRoomOto/showRoomOto/web/includes/headerMainPage.jsp</file>
+            <file>file:/D:/WEB%20PRJ301/PRJ301_ShowRoomOto/PRJ301_ShowRoomOto/showRoomOto/src/java/repository/DatabaseInfo.java</file>
+            <file>file:/D:/WEB%20PRJ301/PRJ301_ShowRoomOto/PRJ301_ShowRoomOto/showRoomOto/web/contact.jsp</file>
+            <file>file:/D:/WEB%20PRJ301/PRJ301_ShowRoomOto/PRJ301_ShowRoomOto/showRoomOto/web/blog.jsp</file>
+            <file>file:/D:/WEB%20PRJ301/PRJ301_ShowRoomOto/PRJ301_ShowRoomOto/showRoomOto/web/View_Historybooking.jsp</file>
+            <file>file:/D:/WEB%20PRJ301/PRJ301_ShowRoomOto/PRJ301_ShowRoomOto/showRoomOto/web/bookingConfirmation.jsp</file>
+            <file>file:/D:/WEB%20PRJ301/PRJ301_ShowRoomOto/PRJ301_ShowRoomOto/showRoomOto/src/java/controller/LoginServlet.java</file>
+            <file>file:/D:/WEB%20PRJ301/PRJ301_ShowRoomOto/PRJ301_ShowRoomOto/showRoomOto/web/booking.jsp</file>
+            <file>file:/D:/WEB%20PRJ301/PRJ301_ShowRoomOto/PRJ301_ShowRoomOto/showRoomOto/web/index.jsp</file>
+            <file>file:/D:/WEB%20PRJ301/PRJ301_ShowRoomOto/PRJ301_ShowRoomOto/showRoomOto/web/login.jsp</file>
+            <file>file:/D:/WEB%20PRJ301/PRJ301_ShowRoomOto/PRJ301_ShowRoomOto/showRoomOto/web/bookingTable.jsp</file>
+            <file>file:/D:/WEB%20PRJ301/PRJ301_ShowRoomOto/PRJ301_ShowRoomOto/showRoomOto/web/accountInfo.jsp</file>
+            <file>file:/D:/WEB%20PRJ301/PRJ301_ShowRoomOto/PRJ301_ShowRoomOto/showRoomOto/web/accountTable.jsp</file>
+            <file>file:/D:/WEB%20PRJ301/PRJ301_ShowRoomOto/PRJ301_ShowRoomOto/showRoomOto/web/carTable.jsp</file>
+            <file>file:/D:/WEB%20PRJ301/PRJ301_ShowRoomOto/PRJ301_ShowRoomOto/showRoomOto/web/resetPassword.jsp</file>
+            <file>file:/D:/WEB%20PRJ301/PRJ301_ShowRoomOto/PRJ301_ShowRoomOto/showRoomOto/src/java/controller/FacebookLogin.java</file>
+            <file>file:/D:/WEB%20PRJ301/PRJ301_ShowRoomOto/PRJ301_ShowRoomOto/showRoomOto/src/java/constant/Iconstant.java</file>
+            <file>file:/D:/WEB%20PRJ301/PRJ301_ShowRoomOto/PRJ301_ShowRoomOto/showRoomOto/web/signup.jsp</file>
+            <file>file:/D:/WEB%20PRJ301/PRJ301_ShowRoomOto/PRJ301_ShowRoomOto/showRoomOto/web/carDetailPage.jsp</file>
         </group>
     </open-files>
 </project-private>

@@ -12,11 +12,12 @@ body{
     padding: 0;
     z-index: 1000; /* Z-index thấp hơn header để bị đè */
 }
+
 .carousel-inner {
     width: 100%;
 }
 .carousel-item {
-    height: 700px; /* Điều chỉnh chiều cao theo nhu cầu */
+    height: 100vh;; /* Điều chỉnh chiều cao theo nhu cầu */
     background-size: cover;
     background-position: center;
 }
@@ -192,4 +193,55 @@ clip-path: polygon(
 }
 select {
     background-image: none !important;
+}
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Căn giữa nội dung và đẩy nút xuống */
+    align-items: center;
+    width: 100%;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0px 4px 8px rgba(255, 140, 0, 0.5);
+    padding: 15px;
+    margin: 15px auto;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 450px; /* Đảm bảo tất cả card có chiều cao bằng nhau */
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 6px 12px rgba(255, 140, 0, 0.8);
+}
+
+.card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.card h5 {
+    color: #ff8c00;
+    font-weight: bold;
+    text-align: center;
+}
+
+.card p {
+    font-size: 1em;
+    color: #555;
+    margin: 5px 0;
+    text-align: center;
+}
+
+.card .btn-primary {
+    background: #ff8c00; /* Cam */
+    border: none;
+    width: 100%;
+    font-size: 16px;
+    transition: background 0.3s;
+}
+
+.card .btn-primary:hover {
+    background: #e67300; /* Cam đậm hơn */
 }

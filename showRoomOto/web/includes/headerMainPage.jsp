@@ -8,7 +8,7 @@
 <nav class="header navbar navbar-expand-lg">
     <div class="container-fluid">
         <!-- Logo -->
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="index.jsp">
             <img src="https://www.lamborghini.com/sites/it-en/files/DAM/lamborghini/logos/2024/03_26/logo_header_01.svg" alt="Zourney Logo"> <!-- Đường dẫn tới logo Zourney -->
         </a>
 
@@ -22,13 +22,13 @@
                     <a class="nav-link" href="#car">Car</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="deverloping.jsp">BLOG</a>
+                    <a class="nav-link" href="blog.jsp">BLOG</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="deverloping.jsp">PAGE</a>
+                    <a class="nav-link" href="blog.jsp">PAGE</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="deverloping.jsp">CONTACT</a>
+                    <a class="nav-link" href="contact.jsp">CONTACT</a>
                 </li>
             </ul>
         </div>

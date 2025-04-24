@@ -2,11 +2,16 @@
 /* 
    Body: Nền kim loại (metallic) bằng gradient
 */
+
+
 body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
     background: linear-gradient(145deg, #1f1f1f 0%, #8c8c8c 100%);
+     background-attachment: fixed; /* Giữ nền cố định khi cuộn */
+    background-repeat: no-repeat; /* Ngăn nền bị lặp */
+    background-size: cover; /* Đảm bảo phủ toàn bộ màn hình */
 }
 
 /* Hero (phần banner) */
@@ -104,3 +109,19 @@ th, td {
 th {
     width: 30%;
 }
+
+#h2v {
+    
+    font-size: 28px;
+    font-weight: bold;
+    color: #ffffff; /* Màu chữ trắng */
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 10px;
+    background: linear-gradient(145deg, #ff8000, #ffb84d); /* Gradient cam đậm sang cam nhạt */
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+

@@ -11,6 +11,7 @@
         <!-- Bootstrap Icons -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
         <link rel="stylesheet" href="css/CSS_header.css"/>
+        <link rel="stylesheet" href="css/CSS_footer.css"/>
         <style>
             /* Dùng pseudo-element để hiển thị ảnh car và làm mờ (hoặc giữ nguyên tuỳ ý) */
             .hero::before {
@@ -130,25 +131,22 @@
 
         <div class="container mt-5">
             <div class="card shadow-lg p-4">
+                <c:if test="${requestScope.erormess}!=null">
+                    <a class="text-center mb-4">${requestScope.erormess}</a>
+                </c:if>
                 <h2 class="text-center mb-4">Book To Try This Car</h2>
                 <form method="get" action="s_booking">
                     <div class="mb-3">
                         <label for="startDate" class="form-label fw-bold">Start Date</label>
                         <input type="date" class="form-control" id="startDate" name="startDate" required>
                     </div>
-
-                    <div class="mb-3">
-                        <label for="endDate" class="form-label fw-bold">End Date</label>
-                        <input type="date" class="form-control" id="endDate" name="endDate" required>
-                    </div>
-
                     <!-- Chọn Slot -->
                     <div class="mb-3">
                         <label for="slot" class="form-label fw-bold">Select Slot</label>
                         <select class="form-select" id="slot" name="slot" required>
                             <option value="" selected disabled>Choose a slot</option>
                             <option value="1">Slot 1( 7h-12h)</option>
-                            <option value="2">Slot 2( 2h-22h)</option>
+                            <option value="2">Slot 2( 14h-22h)</option>
                         </select>
                     </div>
 
@@ -171,6 +169,7 @@
                 </form>
             </div>
         </div>
+                    <%@include file="includes/footer.jsp" %>
         <!-- Bootstrap JS, jQuery, và Bootstrap Icons -->
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
