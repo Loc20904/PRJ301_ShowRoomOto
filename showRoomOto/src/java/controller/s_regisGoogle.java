@@ -81,6 +81,7 @@ public class s_regisGoogle extends HttpServlet {
         AccountRep.addAccount(user.getUsername(), user.getEmail(), "user", "normal", cusid);
         user.setRole("user");
         user.setCustomerId(cusid);
+        user=AccountRep.getAccountByEmail(user.getEmail());
         String redirectUrl = (String) request.getSession().getAttribute("redirectUrl");
         if (redirectUrl != null) {
             request.getSession().removeAttribute("redirectUrl"); // Xóa URL sau khi sử dụng

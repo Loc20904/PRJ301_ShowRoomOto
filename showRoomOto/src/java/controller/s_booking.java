@@ -68,14 +68,7 @@ public class s_booking extends HttpServlet {
         if (session.getAttribute("user") == null) {
         // Lưu các thông tin cần thiết vào session để chuyển hướng sau khi đăng nhập
         String carID = request.getParameter("carID");
-        if(request.getAttribute("erormess")!=null)
-        {
-            Car c=CarRep.getCarByID(Integer.parseInt(carID));
-            request.setAttribute("car", c);
-            request.getSession().setAttribute("employeeList", EmployeeRep.getAllActiveEmployees());
-            request.getRequestDispatcher("carDetailPage.jsp").forward(request, response);
-            return;
-        }
+        
         String startDate = request.getParameter("startDate");
         String slot = request.getParameter("slot");
         String employeeID = request.getParameter("employeeID");
@@ -94,8 +87,20 @@ public class s_booking extends HttpServlet {
         // Lấy thông tin khách hàng từ session
         Account acc = (Account) session.getAttribute("user");
         int customerID = acc.getCustomerId();
-        System.out.println("id from acc sess: " + customerID);
-
+        List<Booking> lsB=bookingRep.getBookingByCustomer(customerID);
+        if(!lsB.isEmpty())
+        {
+            request.setAttribute("erormess", "You had have schedule to try car "+lsB.getFirst().getCar().getCarName()+
+                    " at "+(lsB.getFirst().getSlot()==1?"8h-12h":"14h-22h "+lsB.getFirst().getStartDate()));
+        }       
+        if(request.getAttribute("erormess")!=null)
+        {
+            Car c=CarRep.getCarByID(Integer.parseInt(request.getParameter("carID")));
+            request.setAttribute("car", c);
+            request.getSession().setAttribute("employeeList", EmployeeRep.getAllActiveEmployees());
+            request.getRequestDispatcher("carDetailPage.jsp").forward(request, response);
+            return;
+        }
         // Lấy dữ liệu từ form
         String startDate = request.getParameter("startDate");
         int carID = Integer.parseInt(request.getParameter("carID"));

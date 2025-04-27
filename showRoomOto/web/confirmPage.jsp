@@ -16,13 +16,16 @@
             body{
                 background-color: #808080;
             }
+            #formCo{
+                margin-top: 120px; 
+            }
         </style>
     </head>
     <body>
         <%@include file="includes/headerMainPage.jsp" %>
 
         <div class="container mt-5">
-            <div class="card shadow p-4">
+            <div class="card shadow p-4" id="formCo">
                 <h2 class="text-center mb-4">Booking Confirmation</h2>
 
                 <c:if test="${not empty sessionScope.user}">

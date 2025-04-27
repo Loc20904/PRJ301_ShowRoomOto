@@ -131,9 +131,15 @@
 
         <div class="container mt-5">
             <div class="card shadow-lg p-4">
-                <c:if test="${requestScope.erormess}!=null">
-                    <a class="text-center mb-4">${requestScope.erormess}</a>
+                <c:if test="${not empty requestScope.erormess}">
+                    <div class="d-flex justify-content-center mb-4">
+                        <div class="d-flex align-items-center gap-2 p-3 rounded" style="background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; min-width: 300px;">
+                            <i class="bi bi-exclamation-triangle-fill" style="font-size: 1.5rem;"></i>
+                            <span>${requestScope.erormess}</span>
+                        </div>
+                    </div>
                 </c:if>
+
                 <h2 class="text-center mb-4">Book To Try This Car</h2>
                 <form method="get" action="s_booking">
                     <div class="mb-3">
@@ -156,7 +162,7 @@
                         <select class="form-select" id="employee" name="employeeID" required>
                             <option value="" selected disabled>Select an Employee</option>
                             <c:forEach var="employee" items="${sessionScope.employeeList}">
-                                    <option value="${employee.employeeId}">${employee.fullName}</option>
+                                <option value="${employee.employeeId}">${employee.fullName}</option>
                             </c:forEach>
                         </select>
                     </div>
@@ -169,7 +175,7 @@
                 </form>
             </div>
         </div>
-                    <%@include file="includes/footer.jsp" %>
+        <%@include file="includes/footer.jsp" %>
         <!-- Bootstrap JS, jQuery, và Bootstrap Icons -->
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>

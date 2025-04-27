@@ -26,7 +26,7 @@ import repository.EmployeeRep;
 public class s_Car extends HttpServlet {
 
     private static final int CARS_PER_PAGE = 6; // Số lượng xe trên mỗi trang
-    
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -44,7 +44,7 @@ public class s_Car extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet s_Car</title>");            
+            out.println("<title>Servlet s_Car</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet s_Car at " + request.getContextPath() + "</h1>");
@@ -65,28 +65,26 @@ public class s_Car extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        ArrayList<Car> ls=CarRep.getall();
-//        request.getSession().setAttribute("listR", ls);
-//        request.getRequestDispatcher("index.jsp").forward(request, response);
         String brand = request.getParameter("brand");
         String priceOrder = request.getParameter("price");
+        String ref = request.getParameter("refresh");
         HttpSession session = request.getSession();
         List<Car> allCars;
-        // Lấy danh sách toàn bộ xe từ database
-        if(brand!=null || priceOrder!=null){
-            if(brand!=null){
+        if (ref != null) {
+            allCars = CarRep.getall();
+            session.setAttribute("selectedBrand", null);
+            session.setAttribute("selectedPrice", null);
+        } else {
+            if (brand != null) {
                 session.setAttribute("selectedBrand", brand);
-                priceOrder=(String)session.getAttribute("selectedPrice");
             }
-            if(priceOrder!=null){
+            if (priceOrder != null) {
                 session.setAttribute("selectedPrice", priceOrder);
-                brand=(String)session.getAttribute("selectedBrand");
             }
+            priceOrder = (String) session.getAttribute("selectedPrice");
+            brand = (String) session.getAttribute("selectedBrand");
             allCars = CarRep.getFilteredCars(brand, priceOrder);
         }
-        else{
-            allCars = CarRep.getall();
-        }       
         // Lấy số trang hiện tại từ request, nếu không có thì mặc định là trang 1
         int page = 1;
         if (request.getParameter("page") != null) {
@@ -109,10 +107,9 @@ public class s_Car extends HttpServlet {
         session.setAttribute("totalPages", totalPages);
 
         // Chuyển hướng về trang JSP hiển thị xe
-        if(brand!=null || priceOrder!=null){
+        if (brand != null || priceOrder != null) {
             response.sendRedirect("index.jsp?#car");
-        }
-        else{
+        } else {
             request.getRequestDispatcher("index.jsp").forward(request, response);
         }
     }
@@ -128,8 +125,8 @@ public class s_Car extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String cid=request.getParameter("carID");
-        Car c=CarRep.getCarByID(Integer.parseInt(cid));
+        String cid = request.getParameter("carID");
+        Car c = CarRep.getCarByID(Integer.parseInt(cid));
         request.setAttribute("car", c);
         request.getSession().setAttribute("employeeList", EmployeeRep.getAllActiveEmployees());
         request.getRequestDispatcher("carDetailPage.jsp").forward(request, response);
