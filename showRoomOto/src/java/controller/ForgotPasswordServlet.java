@@ -67,8 +67,8 @@ public class ForgotPasswordServlet extends HttpServlet {
 
     private void sendResetEmail(String toEmail, String resetLink) throws MessagingException {
         // Cấu hình email server (dùng Gmail SMTP làm ví dụ)
-        String fromEmail = "tindtde180794@fpt.edu.vn"; // Thay bằng email của bạn
-        String password = "lxhp ujyd bxqc iqyi"; // Thay bằng App Password của Gmail
+        String fromEmail = ; // Thay bằng email của bạn
+        String password =  // Thay bằng App Password của Gmail
 
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
