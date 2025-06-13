@@ -126,8 +126,8 @@ public class RegisterServlet extends HttpServlet {
     // Phương thức gửi email xác nhận
     private boolean sendConfirmationEmail(String email, String token) {
         String host = "smtp.gmail.com";
-        String from = "tindtde180794@fpt.edu.vn";
-        String pass = "lxhp ujyd bxqc iqyi";
+        String from = 
+        String pass = 
 
         Properties props = new Properties();
         props.put("mail.smtp.host", host);
